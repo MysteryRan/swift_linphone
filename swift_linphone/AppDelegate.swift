@@ -6,31 +6,77 @@
 //
 
 import UIKit
+import PushKit
+import CallKit
+import UserNotifications
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate {
 
-
+    var request: UNNotificationRequest?
+    
+    var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        let voipRegistry = PKPushRegistry(queue: DispatchQueue.main)
+        voipRegistry.delegate = self
+        voipRegistry.desiredPushTypes = [PKPushType.voIP]
+        
         return true
     }
-
-    // MARK: UISceneSession Lifecycle
-
-    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        // Called when a new scene session is being created.
-        // Use this method to select a configuration to create the new scene with.
-        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+    
+    func pushRegistry(_ registry: PKPushRegistry, didUpdate pushCredentials: PKPushCredentials, for type: PKPushType) {
+        
+        var deviceTokenString = String()
+        let bytes = [UInt8](pushCredentials.token)
+        for item in bytes {
+            deviceTokenString += String(format:"%02x", item&0x000000FF)
+        }
+       print("deviceToken：\(deviceTokenString)")
+    }
+    
+    func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload: PKPushPayload, for type: PKPushType, completion: @escaping () -> Void) {
+        self.pushRegistry(registry, didReceiveIncomingPushWith: payload, for: type)
     }
 
-    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-        // Called when the user discards a scene session.
-        // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
-        // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
+    func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload: PKPushPayload, for type: PKPushType) {
+        guard type == .voIP else {
+            print("Not VoIP")
+            return
+        }
+        
+        let center = UNUserNotificationCenter.current()
+        let content = UNMutableNotificationContent()
+        content.body = "11111"
+        content.sound = nil
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        
+        request = UNNotificationRequest(identifier: "voip", content: content, trigger: trigger)
+        center.add(request!) { (error) in
+            
+        }
+        
+        
+        
+        //别忘了在这里加上你们自己接电话的逻辑，比如连接聊天服务器啥的，不然这个电话打不通的
+        print("VoIP\(payload.dictionaryPayload)")
+//        if let uuidString = payload.dictionaryPayload["UUID"] as? String,
+//        let handle = payload.dictionaryPayload["handle"] as? String,
+//        let hasVideo = payload.dictionaryPayload["hasVideo"] as? Bool,
+//        let uuid = UUID(uuidString: uuidString){
+//            if #available(iOS 10.0, *) {
+//                ProviderDelegate.shared.reportIncomingCall(uuid: UUID(), handle: "handle", hasVideo: true, completion: { (error) in
+//                    if let e = error {
+//                        print("Error \(e)")
+//                    }
+//                })
+//            } else {
+//                // Fallback on earlier versions
+//            }
+//        }
+        
     }
-
 
 }
 

@@ -6,14 +6,23 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController {
-
+    
+    var request: UNNotificationRequest?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+
+        let linphone = SwiftLinphone.shared2
+       
     }
-
-
+    
+    @IBAction func sipCallClick(_ sender: UIButton) {
+        SwiftLinphone.shared2.sipCall(to: "10010")
+    }
 }
+
+
 
