@@ -15,6 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate {
 
     var request: UNNotificationRequest?
     
+    var bgTaskId: UIBackgroundTaskIdentifier?
+    
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -23,8 +25,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate {
         voipRegistry.delegate = self
         voipRegistry.desiredPushTypes = [PKPushType.voIP]
         
+        SwiftLinphone.shared2.sipInit()
+        SwiftLinphone.shared2.requestBgTaskTime()
+        
         return true
     }
+    
+    
     
     func pushRegistry(_ registry: PKPushRegistry, didUpdate pushCredentials: PKPushCredentials, for type: PKPushType) {
         
@@ -57,9 +64,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate {
             
         }
         
-        
-        
-        //别忘了在这里加上你们自己接电话的逻辑，比如连接聊天服务器啥的，不然这个电话打不通的
         print("VoIP\(payload.dictionaryPayload)")
 //        if let uuidString = payload.dictionaryPayload["UUID"] as? String,
 //        let handle = payload.dictionaryPayload["handle"] as? String,

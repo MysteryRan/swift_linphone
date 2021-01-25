@@ -28,6 +28,14 @@
                                     <action selector="sipCallClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="SgE-MI-uGf"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eq7-rz-pLu">
+                                <rect key="frame" x="253" y="164" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="chatClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Rgq-Kd-Xsm"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -36,10 +44,79 @@
                             <constraint firstItem="FZT-UC-w4k" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="70" id="L9M-25-Irn"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <segue destination="gNF-Ll-BCG" kind="show" identifier="chat" id="mJ7-CR-KEq"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-213.04347826086959" y="44.866071428571423"/>
+        </scene>
+        <!--Chat View Controller-->
+        <scene sceneID="Yra-WO-JVi">
+            <objects>
+                <viewController id="gNF-Ll-BCG" customClass="ChatViewController" customModule="swift_linphone" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fhL-Pz-Ej8">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RAX-So-LYt">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="421"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qGs-xZ-lbS">
+                                <rect key="frame" x="0.0" y="387" width="414" height="421"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Ry-sC-Tow">
+                                <rect key="frame" x="140" y="45" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="Oeb-U8-lKy"/>
+                                    <constraint firstAttribute="height" constant="50" id="oB1-5h-y9x"/>
+                                </constraints>
+                                <state key="normal" title="呼叫"/>
+                                <connections>
+                                    <action selector="sipCall:" destination="gNF-Ll-BCG" eventType="touchUpInside" id="NJC-9Q-Co0"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vEq-1A-SBG">
+                                <rect key="frame" x="20" y="20" width="100" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="NfI-8b-R5b"/>
+                                    <constraint firstAttribute="height" constant="100" id="h5L-NT-P4k"/>
+                                </constraints>
+                                <state key="normal" title="打开摄像头"/>
+                                <connections>
+                                    <action selector="openSipCamera:" destination="gNF-Ll-BCG" eventType="touchUpInside" id="8dX-VM-uaG"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="QFR-o9-tst"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="vEq-1A-SBG" firstAttribute="top" secondItem="QFR-o9-tst" secondAttribute="top" constant="20" id="1Xp-GB-JTV"/>
+                            <constraint firstItem="5Ry-sC-Tow" firstAttribute="centerY" secondItem="vEq-1A-SBG" secondAttribute="centerY" id="EAT-aa-gQp"/>
+                            <constraint firstItem="qGs-xZ-lbS" firstAttribute="height" secondItem="fhL-Pz-Ej8" secondAttribute="height" multiplier="0.5" id="J1A-Xp-qo1"/>
+                            <constraint firstItem="qGs-xZ-lbS" firstAttribute="leading" secondItem="QFR-o9-tst" secondAttribute="leading" id="NYY-WN-Lev"/>
+                            <constraint firstItem="RAX-So-LYt" firstAttribute="top" secondItem="QFR-o9-tst" secondAttribute="top" id="PPy-kz-aOg"/>
+                            <constraint firstItem="5Ry-sC-Tow" firstAttribute="leading" secondItem="vEq-1A-SBG" secondAttribute="trailing" constant="20" id="dRM-be-DYx"/>
+                            <constraint firstItem="QFR-o9-tst" firstAttribute="trailing" secondItem="qGs-xZ-lbS" secondAttribute="trailing" id="h89-Ey-oB0"/>
+                            <constraint firstItem="RAX-So-LYt" firstAttribute="leading" secondItem="QFR-o9-tst" secondAttribute="leading" id="j9K-8k-AEQ"/>
+                            <constraint firstItem="vEq-1A-SBG" firstAttribute="leading" secondItem="QFR-o9-tst" secondAttribute="leading" constant="20" id="mhM-Ra-c4B"/>
+                            <constraint firstItem="QFR-o9-tst" firstAttribute="trailing" secondItem="RAX-So-LYt" secondAttribute="trailing" id="uBg-Zh-Fi8"/>
+                            <constraint firstItem="RAX-So-LYt" firstAttribute="height" secondItem="fhL-Pz-Ej8" secondAttribute="height" multiplier="0.5" id="y12-2q-C5M"/>
+                            <constraint firstItem="QFR-o9-tst" firstAttribute="bottom" secondItem="qGs-xZ-lbS" secondAttribute="bottom" id="zo3-He-iYu"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="B1p-pG-ddT"/>
+                    <connections>
+                        <outlet property="localView" destination="RAX-So-LYt" id="KS9-LA-QFo"/>
+                        <outlet property="remoteView" destination="qGs-xZ-lbS" id="dPh-Fr-Gdf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Iva-s9-V0V" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="450.72463768115944" y="44.866071428571423"/>
         </scene>
     </scenes>
     <resources>

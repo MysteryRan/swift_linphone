@@ -10,13 +10,13 @@ import AVFoundation
 
 class ViewController: UIViewController {
     
-    var request: UNNotificationRequest?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let linphone = SwiftLinphone.shared2
        
+    }
+    
+    @IBAction func chatClick(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "chat", sender: nil)
     }
     
     @IBAction func sipCallClick(_ sender: UIButton) {
