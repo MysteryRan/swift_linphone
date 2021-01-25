@@ -22,6 +22,11 @@ class SwiftLinphone {
     var logManager = LinphoneLoggingServiceManager()
     var callManager = LinphoneCallManager()
     
+    var chatRoomManager: ChatRoom!
+    var chatroomDelegate = LinphoneChatRoomManager()
+    
+    var from: Address?
+    
     public static let shared2 = { () -> SwiftLinphone in
         return SwiftLinphone()
     }()
@@ -29,61 +34,62 @@ class SwiftLinphone {
     func sipInit() {
         let factory = Factory.Instance
         do {
-            
+            // 初始化linphone core
             lc = try Factory.Instance.createCore(configPath: "", factoryConfigPath: "", systemContext: nil)
+            // 允许修改sip状态(用来语音转视频)
             lc.enableSipUpdate = 1
+            // 创建本地视频的宽高约束
             let videoSize = try Factory.Instance.createVideoDefinition(width: 120, height: 120)
             lc.preferredVideoDefinition = videoSize
+            // 视频的帧率
             lc.preferredFramerate = 10
-//            let videoPlicy = try Factory.Instance.createVideoActivationPolicy()
-//            videoPlicy.automaticallyAccept = true
-//            videoPlicy.automaticallyInitiate = true
-//            lc.videoActivationPolicy = videoPlicy
+            
+            /* 是否默认视频通话
+            let videoPlicy = try Factory.Instance.createVideoActivationPolicy()
+            videoPlicy.automaticallyAccept = true
+            videoPlicy.automaticallyInitiate = true
+            lc.videoActivationPolicy = videoPlicy
+            */
+            
             lc.addDelegate(delegate: coreManager)
+            
             try! lc.start()
             
-            /*create proxy config*/
+            // 可以进行文本聊天
+            joinMessageRoom()
+            
+            /*用户信息配置*/
             proxy_cfg = try self.lc.createProxyConfig()
-            /*parse identity*/
-//            let from = try factory.createAddress(addr: "sip:1008@fs.53kf.com:6669")
-//            let info = try factory.createAuthInfo(username: from.username, userid: "", passwd: "54321", ha1: "", realm: "", domain: "") /*create authentication structure from identity*/
-            var from: Address?
             var info: AuthInfo?
-            if #available(iOS 12.0, *) {
-//                from = try factory.createAddress(addr: "sip:1009@fs.53kf.com:6669")
-//                info = try factory.createAuthInfo(username: from!.username, userid: "", passwd: "54321", ha1: "", realm: "", domain: "") /*create authentication structure from identity*/
-                from = try factory.createAddress(addr: "sip:cotcot@sip.linphone.org")
-                info = try factory.createAuthInfo(username: from!.username, userid: "", passwd: "cotcot", ha1: "", realm: "", domain: "") /*create authentication structure from identity*/
-            } else {
-                from = try factory.createAddress(addr: "sip:1008@fs.53kf.com:6669")
-                info = try factory.createAuthInfo(username: from!.username, userid: "", passwd: "54321", ha1: "", realm: "", domain: "") /*create authentication structure from identity*/
-            }
+            from = try factory.createAddress(addr: "sip:cotcot@sip.linphone.org")
+            info = try factory.createAuthInfo(username: from!.username, userid: "", passwd: "cotcot", ha1: "", realm: "", domain: "")
             
-            self.lc!.addAuthInfo(info: info!) /*add authentication info to LinphoneCore*/
+            self.lc!.addAuthInfo(info: info!)
             
+            // 默认视频接收状态
             if let videoPlicy = lc.videoActivationPolicy {
 //                videoPlicy.automaticallyAccept = true
 //                videoPlicy.automaticallyInitiate = true
 //                lc.videoActivationPolicy = videoPlicy
             }
             
-//            lc.videoPreviewEnabled = true
-//            lc.videoCaptureEnabled = true
+            // 预览本地视频
+            lc.videoPreviewEnabled = true
+            // 视频采集
+            lc.videoCaptureEnabled = true
             
-            // configure proxy entries
-            try proxy_cfg.setIdentityaddress(newValue: from!) /*set identity with user name and domain*/
-            let server_addr = from!.domain + ":6669" /*extract domain address from identity*/
-//            let server_addr = from?.domain
-            try proxy_cfg.setServeraddr(newValue: server_addr) /* we assume domain = proxy server address*/
-            proxy_cfg.registerEnabled = true /*activate registration for this proxy config*/
+            // 配置连接代理
+            try proxy_cfg.setIdentityaddress(newValue: from!)
+            let server_addr = from!.domain
+            try proxy_cfg.setServeraddr(newValue: server_addr)
+            proxy_cfg.registerEnabled = true
 
-            try lc.addProxyConfig(config: proxy_cfg!) /*add proxy config to linphone core*/
-            lc.defaultProxyConfig = proxy_cfg /*set to default proxy*/
+            try lc.addProxyConfig(config: proxy_cfg!)
+            lc.defaultProxyConfig = proxy_cfg
 
-//            if #available(iOS 12.0, *) {
-                receiveTime()
-//            }
-            /* main loop for receiving notifications and doing background linphonecore work: */
+            // 接收消息(视频)
+            receiveTime()
+            // 开启定时器 保证linphone后台一直运行
             startIterateTimer()
             
         } catch {
@@ -114,7 +120,9 @@ class SwiftLinphone {
     
     private func startIterateTimer() {
         if (self.mIterateTimer?.isValid ?? false) {
-            print("Iterate timer is already started, skipping ...")
+            return
+        }
+        if (self.lc == nil) {
             return
         }
         self.mIterateTimer = Timer.scheduledTimer(timeInterval: 0.02, target: self, selector: #selector(self.iterate), userInfo: nil, repeats: true)
@@ -124,21 +132,21 @@ class SwiftLinphone {
         if self.lc == nil {
             return
         }
-        DispatchQueue.global().async {
-              // Request the task assertion and save the ID.
-            self.backgroundTaskID = UIApplication.shared.beginBackgroundTask (withName: "Finish Network Tasks") {
-                 // End the task if time expires.
-                 UIApplication.shared.endBackgroundTask(self.backgroundTaskID!)
-                self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
-              }
+//        DispatchQueue.global().async {
+//              // Request the task assertion and save the ID.
+//            self.backgroundTaskID = UIApplication.shared.beginBackgroundTask (withName: "Finish Network Tasks") {
+//                 // End the task if time expires.
+//                 UIApplication.shared.endBackgroundTask(self.backgroundTaskID!)
+//                self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
+//              }
                     
               // Send the data synchronously.
             self.lc.iterate()
                     
               // End the task assertion.
-            UIApplication.shared.endBackgroundTask(self.backgroundTaskID!)
-            self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
-        }
+//            UIApplication.shared.endBackgroundTask(self.backgroundTaskID!)
+//            self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
+//        }
         
     }
     
@@ -146,6 +154,25 @@ class SwiftLinphone {
         if let timer = SwiftLinphone().mIterateTimer {
             print("stop iterate timer")
             timer.invalidate()
+        }
+    }
+    
+    func joinMessageRoom() {
+        do {
+            let toUser = try Factory.Instance.createAddress(addr: "sip:peche5@sip.linphone.org")
+            chatRoomManager = lc.getChatRoom(addr: toUser)
+            chatRoomManager.addDelegate(delegate: chatroomDelegate)
+        } catch {
+            print(error)
+        }
+    }
+    
+    func sendMessage(msg: String) {
+        do {
+            let chatmessage = try chatRoomManager.createMessage(message: msg)
+            chatRoomManager.sendChatMessage(msg: chatmessage)
+        } catch {
+            
         }
     }
     
@@ -177,14 +204,14 @@ class SwiftLinphone {
         do {
 //            lc.invite(url: "sip:1008@fs.53kf.com:6669")
             let param = try lc.createCallParams(call: nil)
-            param.videoEnabled = false
+            param.videoEnabled = true
             param.audioEnabled = true
            
             if #available(iOS 12.0, *) {
 //                call = lc.inviteWithParams(url: "sip:1008@fs.53kf.com:6669", params: param)
                 call = lc.inviteWithParams(url: "sip:peche5@sip.linphone.org", params: param)
             } else {
-                call = lc.inviteWithParams(url: "sip:1009@fs.53kf.com:6669", params: param)
+//                call = lc.inviteWithParams(url: "sip:1009@fs.53kf.com:6669", params: param)
             }
             
             if (call == nil) {
@@ -199,14 +226,14 @@ class SwiftLinphone {
     
     func openCamera() {
         
-        lc.micEnabled = !lc.micEnabled
-        do {
-            try AVAudioSession.sharedInstance().overrideOutputAudioPort(.speaker)
-        
-            try AVAudioSession.sharedInstance().overrideOutputAudioPort(.none)
-        } catch {
-            
-        }
+//        lc.micEnabled = !lc.micEnabled
+//        do {
+//            try AVAudioSession.sharedInstance().overrideOutputAudioPort(.speaker)
+//
+//            try AVAudioSession.sharedInstance().overrideOutputAudioPort(.none)
+//        } catch {
+//
+//        }
         
         
         if let myCall = lc.currentCall {
@@ -233,7 +260,14 @@ class SwiftLinphone {
     }
     
     func requestBgTaskTime() {
-
+        DispatchQueue.global().async {
+            self.backgroundTaskID = UIApplication.shared.beginBackgroundTask (withName: "Finish Network Tasks") {
+                 UIApplication.shared.endBackgroundTask(self.backgroundTaskID!)
+                self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
+              }
+            UIApplication.shared.endBackgroundTask(self.backgroundTaskID!)
+            self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
+        }
     }
     
     deinit {
@@ -245,6 +279,26 @@ class LinphoneCallManager: CallDelegate {
     override func onStateChanged(call: Call, cstate: Call.State, message: String) {
         print(cstate)
     }
+}
+
+class LinphoneChatRoomManager: ChatRoomDelegate {
+    override func onStateChanged(cr: ChatRoom, newState: ChatRoom.State) {
+        print("chat room")
+    }
+    
+    override func onMessageReceived(cr: ChatRoom, msg: ChatMessage) {
+        
+    }
+    
+    override func onChatMessageSent(cr: ChatRoom, eventLog: EventLog) {
+        
+    }
+    
+    override func onParticipantAdded(cr: ChatRoom, eventLog: EventLog) {
+        
+    }
+    
+    
 }
 
 class LinphoneLoggingServiceManager: LoggingServiceDelegate {
@@ -273,9 +327,9 @@ class LinphoneCoreManager: CoreDelegate {
     override func onCallStateChanged(lc: Core, call: Call, cstate: Call.State, message: String) {
         switch cstate {
         case .Idle:
-            print("909090")
+            print("初始化")
         case .IncomingReceived:
-            print("来点")
+            print("来电")
         case .OutgoingRinging:
             print("It is now ringing remotely !\n")
         case .OutgoingEarlyMedia:

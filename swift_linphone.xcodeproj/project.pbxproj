@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A1ACFFB25BE6D8B00A9A3EF /* ChatTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1ACFFA25BE6D8B00A9A3EF /* ChatTextView.swift */; };
+		1A1ACFFE25BE8B2000A9A3EF /* UIDeviceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1ACFFD25BE8B2000A9A3EF /* UIDeviceHelper.swift */; };
 		1A3C747B25B94F6400700138 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3C747A25B94F6400700138 /* ChatViewController.swift */; };
 		1AB63ECD25B6C51400A915C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB63ECC25B6C51400A915C5 /* AppDelegate.swift */; };
 		1AB63ED125B6C51400A915C5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB63ED025B6C51400A915C5 /* ViewController.swift */; };
@@ -19,6 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1A1ACFFA25BE6D8B00A9A3EF /* ChatTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTextView.swift; sourceTree = "<group>"; };
+		1A1ACFFD25BE8B2000A9A3EF /* UIDeviceHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDeviceHelper.swift; sourceTree = "<group>"; };
 		1A3C747A25B94F6400700138 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		1AB63EC925B6C51400A915C5 /* swift_linphone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = swift_linphone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AB63ECC25B6C51400A915C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -74,6 +78,8 @@
 				1AB63ED025B6C51400A915C5 /* ViewController.swift */,
 				1AD09C6A25B7BB9800047895 /* SwiftLinphone.swift */,
 				1A3C747A25B94F6400700138 /* ChatViewController.swift */,
+				1A1ACFFA25BE6D8B00A9A3EF /* ChatTextView.swift */,
+				1A1ACFFD25BE8B2000A9A3EF /* UIDeviceHelper.swift */,
 				1AB63ED225B6C51400A915C5 /* Main.storyboard */,
 				1AB63ED525B6C51800A915C5 /* Assets.xcassets */,
 				1AB63ED725B6C51800A915C5 /* LaunchScreen.storyboard */,
@@ -215,9 +221,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AB63ED125B6C51400A915C5 /* ViewController.swift in Sources */,
+				1A1ACFFB25BE6D8B00A9A3EF /* ChatTextView.swift in Sources */,
 				1AD09C6B25B7BB9800047895 /* SwiftLinphone.swift in Sources */,
 				1A3C747B25B94F6400700138 /* ChatViewController.swift in Sources */,
 				1AB63ECD25B6C51400A915C5 /* AppDelegate.swift in Sources */,
+				1A1ACFFE25BE8B2000A9A3EF /* UIDeviceHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

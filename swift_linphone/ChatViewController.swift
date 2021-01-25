@@ -17,7 +17,7 @@ class ChatViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        sipmanager.sipInit()
+//        sipmanager.sipInit()
         
 //        let ptr3 = withUnsafeMutablePointer(to: &localView) { UnsafeMutableRawPointer($0)//将泛型类指针转换成非泛型类指针
 //        }
