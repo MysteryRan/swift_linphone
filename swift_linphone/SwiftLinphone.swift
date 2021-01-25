@@ -11,6 +11,11 @@ import AVFoundation
 import os.log
 import CallKit
 
+/*
+ 自己的账号 cotcot
+ 对方的账号 peche5
+ */
+
 class SwiftLinphone {
     
     var backgroundTaskID: UIBackgroundTaskIdentifier?
@@ -27,7 +32,36 @@ class SwiftLinphone {
     
     var from: Address?
     
-    public static let shared2 = { () -> SwiftLinphone in
+//    typealias StatusCall = (_ status: RegistrationState) -> ()
+    
+    var statusCallBack: (() -> ())?
+    
+    // 登录sip服务器状态监听
+    var registStatusCallBack: ((_ registatus: RegistrationState) -> ())?
+    
+    // 拨打sip电话状态监听
+    var sipStatusCallBack: ((_ sipstatus: Call.State) -> ())?
+    
+    // 接收文本信息监听
+    var textMsgStatusCallBack: ((_ msg: ChatMessage) -> ())?
+    
+    var localView: UIView? {
+        didSet {
+            if let show = localView {
+                SwiftLinphone.shared.lc.nativeVideoWindowId = UnsafeMutableRawPointer(Unmanaged.passRetained(localView!).toOpaque())
+            }
+        }
+    }
+    
+    var remoteView: UIView? {
+        didSet {
+            if let show = remoteView {
+                SwiftLinphone.shared.lc.nativePreviewWindowId = UnsafeMutableRawPointer(Unmanaged.passRetained(remoteView!).toOpaque())
+            }
+        }
+    }
+    
+    public static let shared = { () -> SwiftLinphone in
         return SwiftLinphone()
     }()
     
@@ -74,9 +108,9 @@ class SwiftLinphone {
             }
             
             // 预览本地视频
-            lc.videoPreviewEnabled = true
+//            lc.videoPreviewEnabled = true
             // 视频采集
-            lc.videoCaptureEnabled = true
+//            lc.videoCaptureEnabled = true
             
             // 配置连接代理
             try proxy_cfg.setIdentityaddress(newValue: from!)
@@ -91,6 +125,8 @@ class SwiftLinphone {
             receiveTime()
             // 开启定时器 保证linphone后台一直运行
             startIterateTimer()
+            
+//            statusCallBack(.None)
             
         } catch {
             print(error)
@@ -250,6 +286,8 @@ class SwiftLinphone {
         }
     }
     
+
+    
     func sipReceiveCall() {
         if let incomingCall = lc.currentCall {
             if incomingCall.dir == .Incoming {
@@ -287,7 +325,7 @@ class LinphoneChatRoomManager: ChatRoomDelegate {
     }
     
     override func onMessageReceived(cr: ChatRoom, msg: ChatMessage) {
-        
+        SwiftLinphone.shared.textMsgStatusCallBack?(msg)
     }
     
     override func onChatMessageSent(cr: ChatRoom, eventLog: EventLog) {
@@ -311,10 +349,19 @@ class LinphoneLoggingServiceManager: LoggingServiceDelegate {
 
 
 class LinphoneCoreManager: CoreDelegate {
+    var registStatus: RegistrationState = .None
+    
+    var addCallBack: ((_ num1: Int) -> ())?
+
     override func onRegistrationStateChanged(lc: Core, cfg: ProxyConfig, cstate: RegistrationState, message: String?) {
 //        print("New registration state \(cstate) for user id \( String(describing: cfg.identityAddress?.asString()))\n")
 //        print(cstate)
-        print(message!)
+//        print(message!)
+//        SwiftLinphone.shared.statusCallBack(cstate)
+//        registStatus = cstate
+//        addCallBack?(cstate.rawValue)
+        SwiftLinphone.shared.registStatusCallBack?(cstate)
+        
     }
     
     override func onCallLogUpdated(lc: Core, newcl: CallLog) {
@@ -325,6 +372,8 @@ class LinphoneCoreManager: CoreDelegate {
     }
     
     override func onCallStateChanged(lc: Core, call: Call, cstate: Call.State, message: String) {
+        SwiftLinphone.shared.sipStatusCallBack?(cstate)
+        
         switch cstate {
         case .Idle:
             print("初始化")

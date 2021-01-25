@@ -25,8 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate {
         voipRegistry.delegate = self
         voipRegistry.desiredPushTypes = [PKPushType.voIP]
         
-        SwiftLinphone.shared2.sipInit()
-        SwiftLinphone.shared2.requestBgTaskTime()
+        SwiftLinphone.shared.sipInit()
+        SwiftLinphone.shared.requestBgTaskTime()
         
         return true
     }

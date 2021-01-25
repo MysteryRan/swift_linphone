@@ -10,7 +10,9 @@ import AVFoundation
 
 class ViewController: UIViewController {
     
-    var sipmanager = SwiftLinphone.shared2
+    var sipmanager = SwiftLinphone.shared
+    
+    let coreMana = LinphoneCoreManager()
     
     let chatBar = UIView(frame: CGRect(x: 0, y: UIDevice.screenHeight - 100 - 20, width: UIDevice.screenWidth, height: 44))
     let chatTextView = ChatTextView(frame: CGRect(x: 40, y: 0, width: UIDevice.screenWidth - 136, height: 44))
@@ -22,6 +24,20 @@ class ViewController: UIViewController {
         setupUI()
         initializeObserve()
         
+ 
+        
+        SwiftLinphone.shared.registStatusCallBack = { cstatus in
+//            print(cstatus)
+        }
+        
+        
+        SwiftLinphone.shared.sipStatusCallBack = { status in
+//            print(status)
+        }
+        
+        SwiftLinphone.shared.textMsgStatusCallBack = { message in
+            print(message)
+        }
        
     }
     
@@ -42,13 +58,24 @@ class ViewController: UIViewController {
         
         // 发送按钮
         let sendButton = UIButton()
+        sendButton.setTitle("发送", for: .normal)
         sendButton.backgroundColor = .orange
+        sendButton.addTarget(self, action: #selector(sendMsgClick), for: .touchUpInside)
         sendButton.frame = CGRect(x: UIDevice.screenWidth - 44, y: 0, width: 44, height: 44)
         chatBar.addSubview(sendButton)
     }
     
+    @objc func sendMsgClick() {
+        if let message = chatTextView.text {
+            if message.count < 1 {
+                return
+            }
+            SwiftLinphone.shared.sendMessage(msg: message)
+        }
+        
+    }
+    
     @objc func handleKeyboard(notification: NSNotification) {
-        print(notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey])
         let duration = notification.userInfo![UIResponder.keyboardAnimationDurationUserInfoKey] as! Double
         UIView.animate(withDuration: duration) {
             let cg: CGRect = notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
@@ -57,9 +84,6 @@ class ViewController: UIViewController {
                 self.chatBar.frame.origin.y = UIDevice.screenHeight - 44 - 20
             }
         }
-        
-//        print(UIDevice.isiPhoneXSierra)
-        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

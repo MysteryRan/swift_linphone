@@ -9,7 +9,7 @@ import UIKit
 
 class ChatViewController: UIViewController {
     
-    var sipmanager = SwiftLinphone.shared2
+    var sipmanager = SwiftLinphone.shared
 
     @IBOutlet weak var localView: UIView!
     @IBOutlet weak var remoteView: UIView!
@@ -24,8 +24,8 @@ class ChatViewController: UIViewController {
 //        let ptr4 = withUnsafeMutablePointer(to: &remoteView) { UnsafeMutableRawPointer($0)//将泛型类指针转换成非泛型类指针
 //        }
         
-        SwiftLinphone.shared2.lc.nativeVideoWindowId = UnsafeMutableRawPointer(Unmanaged.passRetained(self.localView).toOpaque())
-        SwiftLinphone.shared2.lc.nativePreviewWindowId = UnsafeMutableRawPointer(Unmanaged.passRetained(self.remoteView).toOpaque())
+        SwiftLinphone.shared.lc.nativeVideoWindowId = UnsafeMutableRawPointer(Unmanaged.passRetained(self.localView).toOpaque())
+        SwiftLinphone.shared.lc.nativePreviewWindowId = UnsafeMutableRawPointer(Unmanaged.passRetained(self.remoteView).toOpaque())
         
     }
     
