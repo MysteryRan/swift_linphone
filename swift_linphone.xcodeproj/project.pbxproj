@@ -10,6 +10,9 @@
 		1A1ACFFB25BE6D8B00A9A3EF /* ChatTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1ACFFA25BE6D8B00A9A3EF /* ChatTextView.swift */; };
 		1A1ACFFE25BE8B2000A9A3EF /* UIDeviceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1ACFFD25BE8B2000A9A3EF /* UIDeviceHelper.swift */; };
 		1A3C747B25B94F6400700138 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3C747A25B94F6400700138 /* ChatViewController.swift */; };
+		1AA4BD5B25BFB9B3002ADC6B /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA4BD5925BFB9B3002ADC6B /* ChatTableViewCell.swift */; };
+		1AA4BD5C25BFB9B3002ADC6B /* ChatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AA4BD5A25BFB9B3002ADC6B /* ChatTableViewCell.xib */; };
+		1AA4BD7525BFDBF2002ADC6B /* RanMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA4BD7425BFDBF2002ADC6B /* RanMessage.swift */; };
 		1AB63ECD25B6C51400A915C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB63ECC25B6C51400A915C5 /* AppDelegate.swift */; };
 		1AB63ED125B6C51400A915C5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB63ED025B6C51400A915C5 /* ViewController.swift */; };
 		1AB63ED425B6C51400A915C5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AB63ED225B6C51400A915C5 /* Main.storyboard */; };
@@ -24,6 +27,9 @@
 		1A1ACFFA25BE6D8B00A9A3EF /* ChatTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTextView.swift; sourceTree = "<group>"; };
 		1A1ACFFD25BE8B2000A9A3EF /* UIDeviceHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDeviceHelper.swift; sourceTree = "<group>"; };
 		1A3C747A25B94F6400700138 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		1AA4BD5925BFB9B3002ADC6B /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
+		1AA4BD5A25BFB9B3002ADC6B /* ChatTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatTableViewCell.xib; sourceTree = "<group>"; };
+		1AA4BD7425BFDBF2002ADC6B /* RanMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RanMessage.swift; sourceTree = "<group>"; };
 		1AB63EC925B6C51400A915C5 /* swift_linphone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = swift_linphone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AB63ECC25B6C51400A915C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1AB63ED025B6C51400A915C5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -80,6 +86,9 @@
 				1A3C747A25B94F6400700138 /* ChatViewController.swift */,
 				1A1ACFFA25BE6D8B00A9A3EF /* ChatTextView.swift */,
 				1A1ACFFD25BE8B2000A9A3EF /* UIDeviceHelper.swift */,
+				1AA4BD5925BFB9B3002ADC6B /* ChatTableViewCell.swift */,
+				1AA4BD5A25BFB9B3002ADC6B /* ChatTableViewCell.xib */,
+				1AA4BD7425BFDBF2002ADC6B /* RanMessage.swift */,
 				1AB63ED225B6C51400A915C5 /* Main.storyboard */,
 				1AB63ED525B6C51800A915C5 /* Assets.xcassets */,
 				1AB63ED725B6C51800A915C5 /* LaunchScreen.storyboard */,
@@ -166,6 +175,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AB63ED925B6C51800A915C5 /* LaunchScreen.storyboard in Resources */,
+				1AA4BD5C25BFB9B3002ADC6B /* ChatTableViewCell.xib in Resources */,
 				1AB63ED625B6C51800A915C5 /* Assets.xcassets in Resources */,
 				1AB63ED425B6C51400A915C5 /* Main.storyboard in Resources */,
 			);
@@ -221,9 +231,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AB63ED125B6C51400A915C5 /* ViewController.swift in Sources */,
+				1AA4BD7525BFDBF2002ADC6B /* RanMessage.swift in Sources */,
 				1A1ACFFB25BE6D8B00A9A3EF /* ChatTextView.swift in Sources */,
 				1AD09C6B25B7BB9800047895 /* SwiftLinphone.swift in Sources */,
 				1A3C747B25B94F6400700138 /* ChatViewController.swift in Sources */,
+				1AA4BD5B25BFB9B3002ADC6B /* ChatTableViewCell.swift in Sources */,
 				1AB63ECD25B6C51400A915C5 /* AppDelegate.swift in Sources */,
 				1A1ACFFE25BE8B2000A9A3EF /* UIDeviceHelper.swift in Sources */,
 			);

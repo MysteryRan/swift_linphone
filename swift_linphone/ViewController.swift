@@ -7,8 +7,11 @@
 
 import UIKit
 import AVFoundation
+import linphonesw
 
 class ViewController: UIViewController {
+    
+    @IBOutlet weak var tableView: UITableView!
     
     var sipmanager = SwiftLinphone.shared
     
@@ -17,13 +20,14 @@ class ViewController: UIViewController {
     let chatBar = UIView(frame: CGRect(x: 0, y: UIDevice.screenHeight - 100 - 20, width: UIDevice.screenWidth, height: 44))
     let chatTextView = ChatTextView(frame: CGRect(x: 40, y: 0, width: UIDevice.screenWidth - 136, height: 44))
     
+    var dataSource = [ChatMessage]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         
         setupUI()
-        initializeObserve()
-        
+        initializeObserve()        
  
         
         SwiftLinphone.shared.registStatusCallBack = { cstatus in
@@ -39,6 +43,11 @@ class ViewController: UIViewController {
             print(message)
         }
        
+        tableView.register(UINib.init(nibName: "ChatTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
+        
+        dataSource = SwiftLinphone.shared.getChatList()
+        print(dataSource.count)
+        self.tableView.reloadData()
     }
     
     func initializeObserve() {
@@ -54,7 +63,7 @@ class ViewController: UIViewController {
         chatBar.addSubview(chatTextView)
         
         chatBar.backgroundColor = .red
-        self.view.addSubview(chatBar)
+//        self.view.addSubview(chatBar)
         
         // 发送按钮
         let sendButton = UIButton()
@@ -98,6 +107,25 @@ class ViewController: UIViewController {
     @IBAction func sipCallClick(_ sender: UIButton) {
 //        sipmanager.sipCall(to: "10010")
         sipmanager.joinMessageRoom()
+    }
+}
+
+extension ViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return dataSource.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! ChatTableViewCell
+        cell.selectionStyle = .none
+        cell.message = dataSource[indexPath.row]
+        return cell
+    }
+}
+
+extension ViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return ChatTableViewCell.ViewHeightForMessageText(chat: dataSource[indexPath.row])
     }
 }
 

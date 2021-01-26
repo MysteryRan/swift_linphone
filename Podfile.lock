@@ -14,17 +14,22 @@ PODS:
   - linphone-sdk/swift (4.4.24):
     - linphone-sdk/app-extension-swift
     - linphone-sdk/basic-frameworks
+  - SnapKit (5.0.1)
 
 DEPENDENCIES:
-  - linphone-sdk
+  - linphone-sdk (~> 4.4.24)
+  - SnapKit
 
 SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - SnapKit
   https://gitlab.linphone.org/BC/public/podspec.git:
     - linphone-sdk
 
 SPEC CHECKSUMS:
   linphone-sdk: ee95301f9902fa341c0d58613443f2c6fb594bae
+  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
 
-PODFILE CHECKSUM: e8432e9beb6bd30027cce00c3025a8795c194fec
+PODFILE CHECKSUM: f4151e2fcbe893862867c541dd421017f42e61c8
 
 COCOAPODS: 1.9.1

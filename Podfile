@@ -9,5 +9,6 @@ target 'swift_linphone' do
 
   # Pods for swift_linphone
   pod 'linphone-sdk', '~>4.4.24'
+  pod 'SnapKit'
 
 end

@@ -193,11 +193,35 @@ class SwiftLinphone {
         }
     }
     
+    func getChatList() -> [ChatMessage] {
+        let evss = chatRoomManager.getHistoryMessageEvents(nbEvents: 0)
+        return evss.compactMap { $0.chatMessage }
+    }
+    
     func joinMessageRoom() {
         do {
             let toUser = try Factory.Instance.createAddress(addr: "sip:peche5@sip.linphone.org")
             chatRoomManager = lc.getChatRoom(addr: toUser)
             chatRoomManager.addDelegate(delegate: chatroomDelegate)
+            let evs = chatRoomManager.getHistoryEvents(nbEvents: 0)
+            //标记已读
+//            chatRoomManager.markAsRead()
+//            for i in evs {
+//                print(i.chatMessage?.textContent)
+//                print(i.creationTime)
+//                print(i.participantAddress?.username)
+//                print(i.type)
+//            }
+            let evss = chatRoomManager.getHistoryMessageEvents(nbEvents: 0)
+            for i in evss {
+//                print(i.chatMessage?.textContent)
+//                print(i.chatMessage?.time)
+//                print(i.chatMessage?.state)
+//                print(i.participantAddress?.username)
+//                print(i.type)
+            }
+            
+//            print(evs,evss)
         } catch {
             print(error)
         }

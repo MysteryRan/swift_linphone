@@ -36,15 +36,28 @@
                                     <action selector="chatClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Rgq-Kd-Xsm"/>
                                 </connections>
                             </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NiO-FS-1Ag">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="cvQ-Ab-LuY"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="Kqg-aM-leE"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="FZT-UC-w4k" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="100" id="7UV-iK-Q8f"/>
+                            <constraint firstItem="NiO-FS-1Ag" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="95M-HQ-qOr"/>
                             <constraint firstItem="FZT-UC-w4k" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="70" id="L9M-25-Irn"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="NiO-FS-1Ag" secondAttribute="trailing" id="XtU-fh-e7q"/>
+                            <constraint firstItem="NiO-FS-1Ag" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="nWI-1Y-9ok"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="NiO-FS-1Ag" secondAttribute="bottom" id="v2s-Sa-ZK7"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="tableView" destination="NiO-FS-1Ag" id="wPm-nC-Z9S"/>
                         <segue destination="gNF-Ll-BCG" kind="show" identifier="chat" id="mJ7-CR-KEq"/>
                     </connections>
                 </viewController>
