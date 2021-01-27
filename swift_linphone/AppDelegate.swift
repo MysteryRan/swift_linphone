@@ -28,10 +28,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate {
         SwiftLinphone.shared.sipInit()
         SwiftLinphone.shared.requestBgTaskTime()
         
+        setRootViewController()
+        
         return true
     }
     
+    // MARK:设置根视图控制器
+    func setRootViewController() {
+        window = UIWindow.init(frame: UIScreen.main.bounds)
+        let rootVC = LoginViewController()
+        window?.rootViewController = rootVC
+        window?.makeKeyAndVisible()
+    }
     
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        SwiftLinphone.shared.enterBackground()
+    }
     
     func pushRegistry(_ registry: PKPushRegistry, didUpdate pushCredentials: PKPushCredentials, for type: PKPushType) {
         

@@ -16,6 +16,11 @@ import CallKit
  对方的账号 peche5
  */
 
+enum UserAccount {
+    case ABC
+    case XYZ
+}
+
 class SwiftLinphone {
     
     var backgroundTaskID: UIBackgroundTaskIdentifier?
@@ -45,31 +50,18 @@ class SwiftLinphone {
     // 接收文本信息监听
     var textMsgStatusCallBack: ((_ msg: ChatMessage) -> ())?
     
-    var localView: UIView? {
-        didSet {
-            if let show = localView {
-                SwiftLinphone.shared.lc.nativeVideoWindowId = UnsafeMutableRawPointer(Unmanaged.passRetained(localView!).toOpaque())
-            }
-        }
-    }
-    
-    var remoteView: UIView? {
-        didSet {
-            if let show = remoteView {
-                SwiftLinphone.shared.lc.nativePreviewWindowId = UnsafeMutableRawPointer(Unmanaged.passRetained(remoteView!).toOpaque())
-            }
-        }
-    }
-    
     public static let shared = { () -> SwiftLinphone in
         return SwiftLinphone()
     }()
     
     func sipInit() {
-        let factory = Factory.Instance
         do {
             // 初始化linphone core
             lc = try Factory.Instance.createCore(configPath: "", factoryConfigPath: "", systemContext: nil)
+//            Core.setLogCollectionPath(path: Factory.Instance.getDownloadDir(context: UnsafeMutablePointer<Int8>(mutating: (Config.appGroupName as NSString).utf8String)))
+            let dataPath: NSString = Factory.Instance.getDataDir(context: nil) as NSString
+//            "linphone_chats.db"
+            lc.callLogsDatabasePath = dataPath.appendingPathComponent("linphone_chats.db")
             // 允许修改sip状态(用来语音转视频)
             lc.enableSipUpdate = 1
             // 创建本地视频的宽高约束
@@ -89,15 +81,28 @@ class SwiftLinphone {
             
             try! lc.start()
             
-            // 可以进行文本聊天
-            joinMessageRoom()
+
             
+        } catch {
+            print(error)
+        }
+    }
+    
+    func loginIn(account: UserAccount) {
+        
+        do {
             /*用户信息配置*/
             proxy_cfg = try self.lc.createProxyConfig()
             var info: AuthInfo?
-            from = try factory.createAddress(addr: "sip:cotcot@sip.linphone.org")
-            info = try factory.createAuthInfo(username: from!.username, userid: "", passwd: "cotcot", ha1: "", realm: "", domain: "")
             
+            if account == .ABC {
+                from = try Factory.Instance.createAddress(addr: "sip:cotcot@sip.linphone.org")
+                info = try Factory.Instance.createAuthInfo(username: from!.username, userid: "", passwd: "cotcot", ha1: "", realm: "", domain: "")
+            } else {
+                from = try Factory.Instance.createAddress(addr: "sip:peche5@sip.linphone.org")
+                info = try Factory.Instance.createAuthInfo(username: from!.username, userid: "", passwd: "peche5", ha1: "", realm: "", domain: "")
+            }
+                
             self.lc!.addAuthInfo(info: info!)
             
             // 默认视频接收状态
@@ -120,17 +125,16 @@ class SwiftLinphone {
 
             try lc.addProxyConfig(config: proxy_cfg!)
             lc.defaultProxyConfig = proxy_cfg
-
-            // 接收消息(视频)
-            receiveTime()
-            // 开启定时器 保证linphone后台一直运行
-            startIterateTimer()
-            
-//            statusCallBack(.None)
-            
         } catch {
             print(error)
         }
+        
+        // 可以进行文本聊天
+        joinMessageRoom()
+        // 接收消息(视频)
+        receiveTime()
+        // 开启定时器 保证linphone后台一直运行
+        startIterateTimer()
     }
     
     private init() { }
@@ -193,38 +197,123 @@ class SwiftLinphone {
         }
     }
     
+    
+    func AudioChat() -> Bool {
+        do {
+            let param = try lc.createCallParams(call: nil)
+            param.videoEnabled = false
+            param.audioEnabled = true
+            call = lc.inviteWithParams(url: "sip:peche5@sip.linphone.org", params: param)
+            if (call == nil) {
+                print("Could not place call to")
+                return false
+            } else {
+                print("Call to is in progress...")
+                return true
+            }
+        } catch {
+            print("call error")
+            return false
+        }
+    }
+    
+    func VideoChat() -> Bool {
+        do {
+            let param = try lc.createCallParams(call: nil)
+            param.videoEnabled = true
+            param.audioEnabled = true
+            call = lc.inviteWithParams(url: "sip:peche5@sip.linphone.org", params: param)
+            if (call == nil) {
+                print("Could not place call to")
+                return false
+            } else {
+                print("Call to is in progress...")
+                return true
+            }
+        } catch {
+            print("call error")
+            return false
+        }
+    }
+    
+    func enterBackground() {
+        lc.enterBackground()
+    }
+    
     func getChatList() -> [ChatMessage] {
         let evss = chatRoomManager.getHistoryMessageEvents(nbEvents: 0)
         return evss.compactMap { $0.chatMessage }
     }
     
-    func joinMessageRoom() {
-        do {
-            let toUser = try Factory.Instance.createAddress(addr: "sip:peche5@sip.linphone.org")
-            chatRoomManager = lc.getChatRoom(addr: toUser)
-            chatRoomManager.addDelegate(delegate: chatroomDelegate)
-            let evs = chatRoomManager.getHistoryEvents(nbEvents: 0)
-            //标记已读
-//            chatRoomManager.markAsRead()
-//            for i in evs {
-//                print(i.chatMessage?.textContent)
-//                print(i.creationTime)
-//                print(i.participantAddress?.username)
-//                print(i.type)
-//            }
-            let evss = chatRoomManager.getHistoryMessageEvents(nbEvents: 0)
-            for i in evss {
-//                print(i.chatMessage?.textContent)
-//                print(i.chatMessage?.time)
-//                print(i.chatMessage?.state)
-//                print(i.participantAddress?.username)
-//                print(i.type)
-            }
-            
-//            print(evs,evss)
-        } catch {
-            print(error)
+    func textChatList() -> [ChatRoom] {
+        if lc == nil {
+            return [ChatRoom]()
         }
+        return lc.chatRooms
+    }
+    
+    func messageRead(address: Address) {
+        let currentRoomManager = lc.getChatRoom(addr: address)
+        currentRoomManager?.markAsRead()
+    }
+    
+    func getCallLogs() {
+        
+        print(lc.callLogs)
+        
+        for i in lc.callLogs {
+            print(i.dir,i.duration,i.fromAddress?.username,i.startDate,i.status)
+        }
+        
+    }
+    
+    func joinMessageRoom() {
+//        do {
+//            let toUser = try Factory.Instance.createAddress(addr: "sip:peche5@sip.linphone.org")
+//            chatRoomManager = lc.getChatRoom(addr: toUser)
+//            chatRoomManager.addDelegate(delegate: chatroomDelegate)
+//            let evs = chatRoomManager.getHistoryEvents(nbEvents: 0)
+//            //标记已读
+////            chatRoomManager.markAsRead()
+////            for i in evs {
+////                print(i.chatMessage?.textContent)
+////                print(i.creationTime)
+////                print(i.participantAddress?.username)
+////                print(i.type)
+////            }
+//            let evss = chatRoomManager.getHistoryMessageEvents(nbEvents: 0)
+//            for i in evss {
+////                print(i.chatMessage?.textContent)
+////                print(i.chatMessage?.time)
+////                print(i.chatMessage?.state)
+////                print(i.participantAddress?.username)
+////                print(i.type)
+//            }
+//
+////            print(lc.callLogs)
+////            print(lc.callLogsDatabasePath)
+//
+//
+////            print(lc.getCallHistoryForAddress(addr: toUser))
+//
+////            print(lc.chatRooms)
+//            for i in lc.chatRooms {
+//                print(i.me?.address?.username)
+//                 print(i.lastUpdateTime)
+//                print(i.lastMessageInHistory?.textContent)
+//                for j in i.participants {
+////                    lastMessageInHistory
+//                    print(j.address?.displayName,j.address?.username)
+////                    print(j.userData)
+//                }
+//
+//
+//            }
+//
+////            print(evs,evss)
+//        } catch {
+//            print(error)
+//        }
     }
     
     func sendMessage(msg: String) {
@@ -233,6 +322,16 @@ class SwiftLinphone {
             chatRoomManager.sendChatMessage(msg: chatmessage)
         } catch {
             
+        }
+    }
+    
+    func createMessage(msg: String) -> ChatMessage? {
+        do {
+            let chatmessage = try chatRoomManager.createMessage(message: msg)
+            return chatmessage
+        } catch {
+            print(error)
+            return nil
         }
     }
     

@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		1A1ACFFB25BE6D8B00A9A3EF /* ChatTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1ACFFA25BE6D8B00A9A3EF /* ChatTextView.swift */; };
 		1A1ACFFE25BE8B2000A9A3EF /* UIDeviceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1ACFFD25BE8B2000A9A3EF /* UIDeviceHelper.swift */; };
+		1A2453BF25C0F54500CAB099 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2453BE25C0F54500CAB099 /* LoginViewController.swift */; };
+		1A2453DA25C105E300CAB099 /* CFBaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2453D825C105E300CAB099 /* CFBaseNavigationController.swift */; };
+		1A2453DB25C105E300CAB099 /* CFBaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2453D925C105E300CAB099 /* CFBaseTabBarController.swift */; };
+		1A2453E125C106B300CAB099 /* UIColorHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2453E025C106B200CAB099 /* UIColorHelper.swift */; };
+		1A2453E425C1073A00CAB099 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2453E325C1073A00CAB099 /* TestViewController.swift */; };
 		1A3C747B25B94F6400700138 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3C747A25B94F6400700138 /* ChatViewController.swift */; };
 		1AA4BD5B25BFB9B3002ADC6B /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA4BD5925BFB9B3002ADC6B /* ChatTableViewCell.swift */; };
 		1AA4BD5C25BFB9B3002ADC6B /* ChatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AA4BD5A25BFB9B3002ADC6B /* ChatTableViewCell.xib */; };
@@ -18,6 +23,11 @@
 		1AB63ED425B6C51400A915C5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AB63ED225B6C51400A915C5 /* Main.storyboard */; };
 		1AB63ED625B6C51800A915C5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AB63ED525B6C51800A915C5 /* Assets.xcassets */; };
 		1AB63ED925B6C51800A915C5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AB63ED725B6C51800A915C5 /* LaunchScreen.storyboard */; };
+		1AB94B4525C126D90096F8DE /* TextChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB94B4425C126D90096F8DE /* TextChatViewController.swift */; };
+		1AB94B5925C12A490096F8DE /* ChatHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB94B5725C12A490096F8DE /* ChatHistoryCell.swift */; };
+		1AB94B5A25C12A490096F8DE /* ChatHistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AB94B5825C12A490096F8DE /* ChatHistoryCell.xib */; };
+		1AB94B5D25C135230096F8DE /* ChatDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB94B5C25C135230096F8DE /* ChatDetailViewController.swift */; };
+		1AB94B7225C14E0A0096F8DE /* FaceTimeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB94B7125C14E0A0096F8DE /* FaceTimeController.swift */; };
 		1AD09C6B25B7BB9800047895 /* SwiftLinphone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD09C6A25B7BB9800047895 /* SwiftLinphone.swift */; };
 		1AD09C9325B7EC6900047895 /* CallKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AD09C9225B7EC6900047895 /* CallKit.framework */; };
 		88076EF4B0A707173192DD5D /* Pods_swift_linphone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B142154C197B7EC4A7E3F54F /* Pods_swift_linphone.framework */; };
@@ -26,6 +36,11 @@
 /* Begin PBXFileReference section */
 		1A1ACFFA25BE6D8B00A9A3EF /* ChatTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTextView.swift; sourceTree = "<group>"; };
 		1A1ACFFD25BE8B2000A9A3EF /* UIDeviceHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDeviceHelper.swift; sourceTree = "<group>"; };
+		1A2453BE25C0F54500CAB099 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		1A2453D825C105E300CAB099 /* CFBaseNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CFBaseNavigationController.swift; sourceTree = "<group>"; };
+		1A2453D925C105E300CAB099 /* CFBaseTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CFBaseTabBarController.swift; sourceTree = "<group>"; };
+		1A2453E025C106B200CAB099 /* UIColorHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorHelper.swift; sourceTree = "<group>"; };
+		1A2453E325C1073A00CAB099 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		1A3C747A25B94F6400700138 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		1AA4BD5925BFB9B3002ADC6B /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
 		1AA4BD5A25BFB9B3002ADC6B /* ChatTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatTableViewCell.xib; sourceTree = "<group>"; };
@@ -37,6 +52,11 @@
 		1AB63ED525B6C51800A915C5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1AB63ED825B6C51800A915C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1AB63EDA25B6C51800A915C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1AB94B4425C126D90096F8DE /* TextChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextChatViewController.swift; sourceTree = "<group>"; };
+		1AB94B5725C12A490096F8DE /* ChatHistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatHistoryCell.swift; sourceTree = "<group>"; };
+		1AB94B5825C12A490096F8DE /* ChatHistoryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatHistoryCell.xib; sourceTree = "<group>"; };
+		1AB94B5C25C135230096F8DE /* ChatDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDetailViewController.swift; sourceTree = "<group>"; };
+		1AB94B7125C14E0A0096F8DE /* FaceTimeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceTimeController.swift; sourceTree = "<group>"; };
 		1AD09C6A25B7BB9800047895 /* SwiftLinphone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftLinphone.swift; sourceTree = "<group>"; };
 		1AD09C9225B7EC6900047895 /* CallKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CallKit.framework; path = System/Library/Frameworks/CallKit.framework; sourceTree = SDKROOT; };
 		1AD09C9625B7ECE500047895 /* swift_linphone.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = swift_linphone.entitlements; sourceTree = "<group>"; };
@@ -80,16 +100,26 @@
 			isa = PBXGroup;
 			children = (
 				1AD09C9625B7ECE500047895 /* swift_linphone.entitlements */,
+				1A2453D825C105E300CAB099 /* CFBaseNavigationController.swift */,
+				1A2453D925C105E300CAB099 /* CFBaseTabBarController.swift */,
 				1AB63ECC25B6C51400A915C5 /* AppDelegate.swift */,
 				1AB63ED025B6C51400A915C5 /* ViewController.swift */,
+				1A2453E325C1073A00CAB099 /* TestViewController.swift */,
 				1AD09C6A25B7BB9800047895 /* SwiftLinphone.swift */,
+				1A2453BE25C0F54500CAB099 /* LoginViewController.swift */,
 				1A3C747A25B94F6400700138 /* ChatViewController.swift */,
 				1A1ACFFA25BE6D8B00A9A3EF /* ChatTextView.swift */,
 				1A1ACFFD25BE8B2000A9A3EF /* UIDeviceHelper.swift */,
 				1AA4BD5925BFB9B3002ADC6B /* ChatTableViewCell.swift */,
 				1AA4BD5A25BFB9B3002ADC6B /* ChatTableViewCell.xib */,
 				1AA4BD7425BFDBF2002ADC6B /* RanMessage.swift */,
+				1A2453E025C106B200CAB099 /* UIColorHelper.swift */,
 				1AB63ED225B6C51400A915C5 /* Main.storyboard */,
+				1AB94B4425C126D90096F8DE /* TextChatViewController.swift */,
+				1AB94B5C25C135230096F8DE /* ChatDetailViewController.swift */,
+				1AB94B7125C14E0A0096F8DE /* FaceTimeController.swift */,
+				1AB94B5725C12A490096F8DE /* ChatHistoryCell.swift */,
+				1AB94B5825C12A490096F8DE /* ChatHistoryCell.xib */,
 				1AB63ED525B6C51800A915C5 /* Assets.xcassets */,
 				1AB63ED725B6C51800A915C5 /* LaunchScreen.storyboard */,
 				1AB63EDA25B6C51800A915C5 /* Info.plist */,
@@ -174,6 +204,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AB94B5A25C12A490096F8DE /* ChatHistoryCell.xib in Resources */,
 				1AB63ED925B6C51800A915C5 /* LaunchScreen.storyboard in Resources */,
 				1AA4BD5C25BFB9B3002ADC6B /* ChatTableViewCell.xib in Resources */,
 				1AB63ED625B6C51800A915C5 /* Assets.xcassets in Resources */,
@@ -230,10 +261,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A2453DB25C105E300CAB099 /* CFBaseTabBarController.swift in Sources */,
+				1A2453BF25C0F54500CAB099 /* LoginViewController.swift in Sources */,
 				1AB63ED125B6C51400A915C5 /* ViewController.swift in Sources */,
+				1AB94B4525C126D90096F8DE /* TextChatViewController.swift in Sources */,
+				1A2453E125C106B300CAB099 /* UIColorHelper.swift in Sources */,
+				1A2453DA25C105E300CAB099 /* CFBaseNavigationController.swift in Sources */,
+				1A2453E425C1073A00CAB099 /* TestViewController.swift in Sources */,
 				1AA4BD7525BFDBF2002ADC6B /* RanMessage.swift in Sources */,
+				1AB94B5925C12A490096F8DE /* ChatHistoryCell.swift in Sources */,
 				1A1ACFFB25BE6D8B00A9A3EF /* ChatTextView.swift in Sources */,
 				1AD09C6B25B7BB9800047895 /* SwiftLinphone.swift in Sources */,
+				1AB94B5D25C135230096F8DE /* ChatDetailViewController.swift in Sources */,
+				1AB94B7225C14E0A0096F8DE /* FaceTimeController.swift in Sources */,
 				1A3C747B25B94F6400700138 /* ChatViewController.swift in Sources */,
 				1AA4BD5B25BFB9B3002ADC6B /* ChatTableViewCell.swift in Sources */,
 				1AB63ECD25B6C51400A915C5 /* AppDelegate.swift in Sources */,

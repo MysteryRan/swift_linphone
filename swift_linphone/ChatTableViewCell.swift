@@ -112,12 +112,7 @@ class ChatTableViewCell: UITableViewCell {
     
     static func ViewHeightForMessageText(chat: ChatMessage) -> CGFloat {
         let timeSize = computeBoundingBox(text: timeCover(time: chat.time), size: CGSize(width: UIDevice.screenWidth, height: UIDevice.screenWidth), font: UIFont.systemFont(ofSize: 12))
-        let messageSize = computeBoundingBox(text: chat.textContent, size: CGSize(width: UIDevice.screenWidth - 250, height: CGFloat.greatestFiniteMagnitude), font: UIFont.systemFont(ofSize: 13))
-        
-        print(timeSize.height)
-        print("-----")
-        print(messageSize.height)
-        
+        let messageSize = computeBoundingBox(text: chat.textContent, size: CGSize(width: UIDevice.screenWidth - 160, height: CGFloat.greatestFiniteMagnitude), font: UIFont.systemFont(ofSize: 13))
         return (timeSize.height + messageSize.height + 55)
     }
     
@@ -141,7 +136,7 @@ class ChatTableViewCell: UITableViewCell {
                 }
                 
                 self.textContentLab.snp.remakeConstraints { (make) in
-                    make.top.equalTo(self.messageTimeLab.snp.bottom).offset(10)
+                    make.top.equalTo(self.messageTimeLab.snp.bottom).offset(15)
                     make.right.equalTo(self.messageTimeLab).offset(-10)
                     make.left.greaterThanOrEqualToSuperview().offset(100)
                 }
@@ -149,8 +144,8 @@ class ChatTableViewCell: UITableViewCell {
                 self.bgImageView.snp.remakeConstraints { (make) in
                     make.top.equalTo(self.textContentLab).offset(-5)
                     make.right.equalTo(self.messageTimeLab)
-                    make.width.equalTo(self.textContentLab).offset(20)
-                    make.height.equalTo(self.textContentLab).offset(10)
+                    make.bottom.equalTo(self.textContentLab).offset(5)
+                    make.left.equalTo(self.textContentLab).offset(-10)
                 }
                 
                 self.messageStatusIcon.snp.remakeConstraints { (make) in
@@ -173,15 +168,15 @@ class ChatTableViewCell: UITableViewCell {
                 }
                 
                 self.textContentLab.snp.remakeConstraints { (make) in
-                    make.top.equalTo(self.messageTimeLab.snp.bottom).offset(20)
+                    make.top.equalTo(self.messageTimeLab.snp.bottom).offset(15)
                     make.left.equalTo(self.messageTimeLab).offset(5)
                     make.right.lessThanOrEqualToSuperview().offset(-100)
                 }
                 
                 self.bgImageView.snp.remakeConstraints { (make) in
                     make.left.equalTo(self.messageTimeLab)
-                    make.top.equalTo(self.messageTimeLab.snp.bottom).offset(10)
-                    make.bottom.equalTo(self.textContentLab).offset(10)
+                    make.top.equalTo(self.textContentLab).offset(-5)
+                    make.bottom.equalTo(self.textContentLab).offset(5)
                     make.right.equalTo(self.textContentLab).offset(10)
                 }
             }
