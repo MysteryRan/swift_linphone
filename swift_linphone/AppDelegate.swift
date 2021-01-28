@@ -39,6 +39,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate {
         let rootVC = LoginViewController()
         window?.rootViewController = rootVC
         window?.makeKeyAndVisible()
+        
+//        UIApplication.shared.keyWindow?.addSubview(CallChatView(frame: CGRect(x: 0, y: 0, width: UIDevice.screenWidth, height: UIDevice.screenHeight)))
     }
     
     func applicationDidEnterBackground(_ application: UIApplication) {

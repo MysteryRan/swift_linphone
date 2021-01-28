@@ -12,6 +12,8 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+
+        
         self.view.backgroundColor = .white
         
         let titleLab = UILabel()

@@ -15,9 +15,12 @@
 		1A2453E125C106B300CAB099 /* UIColorHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2453E025C106B200CAB099 /* UIColorHelper.swift */; };
 		1A2453E425C1073A00CAB099 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2453E325C1073A00CAB099 /* TestViewController.swift */; };
 		1A3C747B25B94F6400700138 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3C747A25B94F6400700138 /* ChatViewController.swift */; };
+		1A969D0F25C2488000CDD342 /* CallHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A969D0D25C2488000CDD342 /* CallHistoryCell.swift */; };
+		1A969D1025C2488000CDD342 /* CallHistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A969D0E25C2488000CDD342 /* CallHistoryCell.xib */; };
+		1A969D1925C25AF800CDD342 /* CallMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A969D1825C25AF800CDD342 /* CallMessage.swift */; };
+		1A969D2425C27C7E00CDD342 /* CallChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A969D2325C27C7E00CDD342 /* CallChatView.swift */; };
 		1AA4BD5B25BFB9B3002ADC6B /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA4BD5925BFB9B3002ADC6B /* ChatTableViewCell.swift */; };
 		1AA4BD5C25BFB9B3002ADC6B /* ChatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AA4BD5A25BFB9B3002ADC6B /* ChatTableViewCell.xib */; };
-		1AA4BD7525BFDBF2002ADC6B /* RanMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA4BD7425BFDBF2002ADC6B /* RanMessage.swift */; };
 		1AB63ECD25B6C51400A915C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB63ECC25B6C51400A915C5 /* AppDelegate.swift */; };
 		1AB63ED125B6C51400A915C5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB63ED025B6C51400A915C5 /* ViewController.swift */; };
 		1AB63ED425B6C51400A915C5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AB63ED225B6C51400A915C5 /* Main.storyboard */; };
@@ -42,9 +45,12 @@
 		1A2453E025C106B200CAB099 /* UIColorHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorHelper.swift; sourceTree = "<group>"; };
 		1A2453E325C1073A00CAB099 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		1A3C747A25B94F6400700138 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		1A969D0D25C2488000CDD342 /* CallHistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallHistoryCell.swift; sourceTree = "<group>"; };
+		1A969D0E25C2488000CDD342 /* CallHistoryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CallHistoryCell.xib; sourceTree = "<group>"; };
+		1A969D1825C25AF800CDD342 /* CallMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallMessage.swift; sourceTree = "<group>"; };
+		1A969D2325C27C7E00CDD342 /* CallChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallChatView.swift; sourceTree = "<group>"; };
 		1AA4BD5925BFB9B3002ADC6B /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
 		1AA4BD5A25BFB9B3002ADC6B /* ChatTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatTableViewCell.xib; sourceTree = "<group>"; };
-		1AA4BD7425BFDBF2002ADC6B /* RanMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RanMessage.swift; sourceTree = "<group>"; };
 		1AB63EC925B6C51400A915C5 /* swift_linphone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = swift_linphone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AB63ECC25B6C51400A915C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1AB63ED025B6C51400A915C5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -106,13 +112,13 @@
 				1AB63ED025B6C51400A915C5 /* ViewController.swift */,
 				1A2453E325C1073A00CAB099 /* TestViewController.swift */,
 				1AD09C6A25B7BB9800047895 /* SwiftLinphone.swift */,
+				1A969D1825C25AF800CDD342 /* CallMessage.swift */,
 				1A2453BE25C0F54500CAB099 /* LoginViewController.swift */,
 				1A3C747A25B94F6400700138 /* ChatViewController.swift */,
 				1A1ACFFA25BE6D8B00A9A3EF /* ChatTextView.swift */,
 				1A1ACFFD25BE8B2000A9A3EF /* UIDeviceHelper.swift */,
 				1AA4BD5925BFB9B3002ADC6B /* ChatTableViewCell.swift */,
 				1AA4BD5A25BFB9B3002ADC6B /* ChatTableViewCell.xib */,
-				1AA4BD7425BFDBF2002ADC6B /* RanMessage.swift */,
 				1A2453E025C106B200CAB099 /* UIColorHelper.swift */,
 				1AB63ED225B6C51400A915C5 /* Main.storyboard */,
 				1AB94B4425C126D90096F8DE /* TextChatViewController.swift */,
@@ -120,6 +126,9 @@
 				1AB94B7125C14E0A0096F8DE /* FaceTimeController.swift */,
 				1AB94B5725C12A490096F8DE /* ChatHistoryCell.swift */,
 				1AB94B5825C12A490096F8DE /* ChatHistoryCell.xib */,
+				1A969D0D25C2488000CDD342 /* CallHistoryCell.swift */,
+				1A969D0E25C2488000CDD342 /* CallHistoryCell.xib */,
+				1A969D2325C27C7E00CDD342 /* CallChatView.swift */,
 				1AB63ED525B6C51800A915C5 /* Assets.xcassets */,
 				1AB63ED725B6C51800A915C5 /* LaunchScreen.storyboard */,
 				1AB63EDA25B6C51800A915C5 /* Info.plist */,
@@ -206,6 +215,7 @@
 			files = (
 				1AB94B5A25C12A490096F8DE /* ChatHistoryCell.xib in Resources */,
 				1AB63ED925B6C51800A915C5 /* LaunchScreen.storyboard in Resources */,
+				1A969D1025C2488000CDD342 /* CallHistoryCell.xib in Resources */,
 				1AA4BD5C25BFB9B3002ADC6B /* ChatTableViewCell.xib in Resources */,
 				1AB63ED625B6C51800A915C5 /* Assets.xcassets in Resources */,
 				1AB63ED425B6C51400A915C5 /* Main.storyboard in Resources */,
@@ -264,11 +274,12 @@
 				1A2453DB25C105E300CAB099 /* CFBaseTabBarController.swift in Sources */,
 				1A2453BF25C0F54500CAB099 /* LoginViewController.swift in Sources */,
 				1AB63ED125B6C51400A915C5 /* ViewController.swift in Sources */,
+				1A969D1925C25AF800CDD342 /* CallMessage.swift in Sources */,
 				1AB94B4525C126D90096F8DE /* TextChatViewController.swift in Sources */,
 				1A2453E125C106B300CAB099 /* UIColorHelper.swift in Sources */,
 				1A2453DA25C105E300CAB099 /* CFBaseNavigationController.swift in Sources */,
 				1A2453E425C1073A00CAB099 /* TestViewController.swift in Sources */,
-				1AA4BD7525BFDBF2002ADC6B /* RanMessage.swift in Sources */,
+				1A969D0F25C2488000CDD342 /* CallHistoryCell.swift in Sources */,
 				1AB94B5925C12A490096F8DE /* ChatHistoryCell.swift in Sources */,
 				1A1ACFFB25BE6D8B00A9A3EF /* ChatTextView.swift in Sources */,
 				1AD09C6B25B7BB9800047895 /* SwiftLinphone.swift in Sources */,
@@ -277,6 +288,7 @@
 				1A3C747B25B94F6400700138 /* ChatViewController.swift in Sources */,
 				1AA4BD5B25BFB9B3002ADC6B /* ChatTableViewCell.swift in Sources */,
 				1AB63ECD25B6C51400A915C5 /* AppDelegate.swift in Sources */,
+				1A969D2425C27C7E00CDD342 /* CallChatView.swift in Sources */,
 				1A1ACFFE25BE8B2000A9A3EF /* UIDeviceHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

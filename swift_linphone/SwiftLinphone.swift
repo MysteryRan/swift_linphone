@@ -70,6 +70,8 @@ class SwiftLinphone {
             // 视频的帧率
             lc.preferredFramerate = 10
             
+            
+            
             /* 是否默认视频通话
             let videoPlicy = try Factory.Instance.createVideoActivationPolicy()
             videoPlicy.automaticallyAccept = true
@@ -111,12 +113,6 @@ class SwiftLinphone {
 //                videoPlicy.automaticallyInitiate = true
 //                lc.videoActivationPolicy = videoPlicy
             }
-            
-            // 预览本地视频
-//            lc.videoPreviewEnabled = true
-            // 视频采集
-//            lc.videoCaptureEnabled = true
-            
             // 配置连接代理
             try proxy_cfg.setIdentityaddress(newValue: from!)
             let server_addr = from!.domain
@@ -145,15 +141,44 @@ class SwiftLinphone {
         _ = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [self] timer in
             if let incomingCall = lc.currentCall {
                 if incomingCall.dir == .Incoming {
-                    self.call = lc.currentCall
-                    incomingCall.addDelegate(delegate:  callManager)
-                    try! incomingCall.accept()
-                    timer.invalidate();
+                    let callView = CallChatView(frame: CGRect(x: 0, y: 0, width: UIDevice.screenWidth, height: UIDevice.screenHeight))
+                    callView.currentCall = lc.currentCall
+                    UIApplication.shared.keyWindow?.addSubview(callView)
                     
-
-                    lc.activateAudioSession(actived: true)
+//                    self.call = lc.currentCall
+                    incomingCall.addDelegate(delegate:  callManager)
+                    
+//                    try! incomingCall.accept()
+                    timer.invalidate();
+//
+//
+//                    lc.activateAudioSession(actived: true)
                 }
 
+            }
+        }
+    }
+    
+    func recordingFilePathFromCall(address: String) -> String {
+        var filePath = "recording_"
+        filePath = filePath.appending(address.isEmpty ? "unknow" : address)
+        let now = Date()
+        let dateFormat = DateFormatter()
+        dateFormat.dateFormat = "E-d-MMM-yyyy-HH-mm-ss"
+        let date = dateFormat.string(from: now)
+        
+        filePath = filePath.appending("_\(date).mkv")
+        
+        let paths = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)
+        var writablePath = paths[0]
+        writablePath = writablePath.appending("/\(filePath)")
+        return writablePath
+    }
+    
+    func sipCallRecording() {
+        if let myCall = lc.currentCall {
+            if myCall.state == .StreamsRunning {
+                myCall.startRecording()
             }
         }
     }
@@ -218,11 +243,18 @@ class SwiftLinphone {
     }
     
     func VideoChat() -> Bool {
+        // 预览本地视频
+        lc.videoPreviewEnabled = true
+        // 视频采集
+        lc.videoCaptureEnabled = true
         do {
             let param = try lc.createCallParams(call: nil)
             param.videoEnabled = true
             param.audioEnabled = true
             call = lc.inviteWithParams(url: "sip:peche5@sip.linphone.org", params: param)
+            let callView = CallChatView(frame: CGRect(x: 0, y: 0, width: UIDevice.screenWidth, height: UIDevice.screenHeight))
+            callView.currentCall = call
+            UIApplication.shared.keyWindow?.addSubview(callView)
             if (call == nil) {
                 print("Could not place call to")
                 return false
@@ -257,14 +289,68 @@ class SwiftLinphone {
         currentRoomManager?.markAsRead()
     }
     
-    func getCallLogs() {
+    // 拒绝
+    func sipDeclineCall() {
+        if let incomingCall = lc.currentCall {
+            if incomingCall.dir == .Incoming {
+                do {
+                    try incomingCall.decline(reason: .Declined)
+                } catch  {
+                    print(error)
+                }
+            }
+        }
+    }
+    
+    // 结束
+    func sipTerminateCall() {
+        if let incomingCall = lc.currentCall {
+            if incomingCall.dir == .Incoming {
+                do {
+                    try incomingCall.terminate()
+                } catch  {
+                    print(error)
+                }
+            }
+        }
+    }
+    
+    func getCallLogs() -> [CallMessage] {
         
-        print(lc.callLogs)
+        var thisCallLogs = [CallMessage]()
+        
+//        lc.findCallLogFromCallId(callId: "ss") getCallHistory()
+        
+//        decline terminate
+        
+        var names = [String]()
+        
+        var callLogsDic = [String:CallMessage]()
         
         for i in lc.callLogs {
-            print(i.dir,i.duration,i.fromAddress?.username,i.startDate,i.status)
+            
+            if i.status != .EarlyAborted {
+                if let friend = i.remoteAddress {
+                    let callMessage = CallMessage()
+                    if !names.contains(friend.username) {
+                        names.append(friend.username)
+                        callMessage.callLog = i
+                        callMessage.callCount = 1
+                        callLogsDic[friend.username] = callMessage
+                    } else {
+                        let insideCallLog = callLogsDic[friend.username]
+                        insideCallLog!.callCount = insideCallLog!.callCount + 1
+                    }
+                }
+//                print(i.startDate,i.dir,i.callId)
+            }
         }
         
+        for i in callLogsDic.values {
+            thisCallLogs.append(i)
+            print(i)
+        }
+        return thisCallLogs
     }
     
     func joinMessageRoom() {
@@ -414,8 +500,16 @@ class SwiftLinphone {
     func sipReceiveCall() {
         if let incomingCall = lc.currentCall {
             if incomingCall.dir == .Incoming {
-                try! incomingCall.accept()
-                lc.activateAudioSession(actived: true)
+                if let callParam = incomingCall.params {
+                    callParam.recordFile = recordingFilePathFromCall(address: incomingCall.remoteAddress!.username)
+                }
+                do {
+                    try incomingCall.accept()
+                    lc.activateAudioSession(actived: true)
+                } catch {
+                    print(error)
+                }
+                
             }
         }
     }
@@ -510,6 +604,11 @@ class LinphoneCoreManager: CoreDelegate {
             print("We are connected !\n")
         case .StreamsRunning:
             print("Media streams established !\n")
+            
+//            SwiftLinphone.shared.recordingFilePathFromCall(address: call.remoteAddress!.username)
+            
+            SwiftLinphone.shared.sipCallRecording()
+            
         case .End:
             print("Call is terminated.\n")
         case .Error:
@@ -517,15 +616,16 @@ class LinphoneCoreManager: CoreDelegate {
         case .Referred:
             print("拒绝")
         case .UpdatedByRemote:
-                do {
-                    if let params = call.remoteParams {
-//                        print(params.videoEnabled)
-                        
-                        try call.acceptUpdate(params: params)
-                    }
-                } catch {
-                    print(error)
-                }
+            print("远程修改")
+//                do {
+//                    if let params = call.remoteParams {
+////                        print(params.videoEnabled)
+//
+//                        try call.acceptUpdate(params: params)
+//                    }
+//                } catch {
+//                    print(error)
+//                }
         case .Updating:
             print("自己修改了")
         default:
