@@ -50,6 +50,8 @@ class SwiftLinphone {
     // 接收文本信息监听
     var textMsgStatusCallBack: ((_ msg: ChatMessage) -> ())?
     
+    var globalMsgCallBack: ((_ msg: ChatMessage) -> ())?
+    
     public static let shared = { () -> SwiftLinphone in
         return SwiftLinphone()
     }()
@@ -70,16 +72,23 @@ class SwiftLinphone {
             // 视频的帧率
             lc.preferredFramerate = 10
             
+            print(lc.videoDevicesList)
+            print(lc.videoDevice)
             
+//            lc.setVideodevice(newValue: "")
+//            call.update(params: <#T##CallParams?#>)
+//            lc.currentCall?.pause()
+//            lc.currentCall?.resume()
+//            lc.leaveConference()
             
-            /* 是否默认视频通话
+            // 是否默认接听视频通话
             let videoPlicy = try Factory.Instance.createVideoActivationPolicy()
             videoPlicy.automaticallyAccept = true
             videoPlicy.automaticallyInitiate = true
             lc.videoActivationPolicy = videoPlicy
-            */
             
-            lc.addDelegate(delegate: coreManager)
+            
+            
             
             try! lc.start()
             
@@ -98,11 +107,11 @@ class SwiftLinphone {
             var info: AuthInfo?
             
             if account == .ABC {
-                from = try Factory.Instance.createAddress(addr: "sip:cotcot@sip.linphone.org")
-                info = try Factory.Instance.createAuthInfo(username: from!.username, userid: "", passwd: "cotcot", ha1: "", realm: "", domain: "")
+                from = try Factory.Instance.createAddress(addr: "sip:wizard15@sip.linphone.org")
+                info = try Factory.Instance.createAuthInfo(username: from!.username, userid: "", passwd: "wizard15", ha1: "", realm: "", domain: "")
             } else {
-                from = try Factory.Instance.createAddress(addr: "sip:peche5@sip.linphone.org")
-                info = try Factory.Instance.createAuthInfo(username: from!.username, userid: "", passwd: "peche5", ha1: "", realm: "", domain: "")
+                from = try Factory.Instance.createAddress(addr: "sip:kenyrim@sip.linphone.org")
+                info = try Factory.Instance.createAuthInfo(username: from!.username, userid: "", passwd: "wsadwsad", ha1: "", realm: "", domain: "")
             }
                 
             self.lc!.addAuthInfo(info: info!)
@@ -121,6 +130,10 @@ class SwiftLinphone {
 
             try lc.addProxyConfig(config: proxy_cfg!)
             lc.defaultProxyConfig = proxy_cfg
+            
+            lc.addDelegate(delegate: coreManager)
+            
+            print(lc.authInfoList)
         } catch {
             print(error)
         }
@@ -136,25 +149,31 @@ class SwiftLinphone {
     private init() { }
     
     private func receiveTime() {
-        try! AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playAndRecord, mode: AVAudioSession.Mode.voiceChat, options: AVAudioSession.CategoryOptions(rawValue: AVAudioSession.CategoryOptions.allowBluetooth.rawValue | AVAudioSession.CategoryOptions.allowBluetoothA2DP.rawValue))
-        try! AVAudioSession.sharedInstance().setPreferredSampleRate(48000.0)
-        _ = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [self] timer in
-            if let incomingCall = lc.currentCall {
-                if incomingCall.dir == .Incoming {
-                    let callView = CallChatView(frame: CGRect(x: 0, y: 0, width: UIDevice.screenWidth, height: UIDevice.screenHeight))
-                    callView.currentCall = lc.currentCall
-                    UIApplication.shared.keyWindow?.addSubview(callView)
-                    
-//                    self.call = lc.currentCall
-                    incomingCall.addDelegate(delegate:  callManager)
-                    
-//                    try! incomingCall.accept()
-                    timer.invalidate();
+//        try! AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playAndRecord, mode: AVAudioSession.Mode.voiceChat, options: AVAudioSession.CategoryOptions(rawValue: AVAudioSession.CategoryOptions.allowBluetooth.rawValue | AVAudioSession.CategoryOptions.allowBluetoothA2DP.rawValue))
+//        try! AVAudioSession.sharedInstance().setPreferredSampleRate(48000.0)
+//        _ = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [self] timer in
+//            if let incomingCall = lc.currentCall {
+//                if incomingCall.dir == .Incoming {
 //
 //
-//                    lc.activateAudioSession(actived: true)
-                }
-
+////                    try! incomingCall.accept()
+//                    timer.invalidate();
+////
+////
+////                    lc.activateAudioSession(actived: true)
+//                }
+//
+//            }
+//        }
+    }
+    
+    func comingCallShowView() {
+        let callView = CallChatView(frame: CGRect(x: 0, y: 0, width: UIDevice.screenWidth, height: UIDevice.screenHeight))
+        callView.currentCall = lc.currentCall
+        UIApplication.shared.keyWindow?.addSubview(callView)
+        if let incomingCall = lc.currentCall {
+            if incomingCall.dir == .Incoming {
+                incomingCall.addDelegate(delegate:  callManager)
             }
         }
     }
@@ -242,7 +261,7 @@ class SwiftLinphone {
         }
     }
     
-    func VideoChat() -> Bool {
+    func VideoChat(remoteAddress: Address) -> Bool {
         // 预览本地视频
         lc.videoPreviewEnabled = true
         // 视频采集
@@ -251,7 +270,9 @@ class SwiftLinphone {
             let param = try lc.createCallParams(call: nil)
             param.videoEnabled = true
             param.audioEnabled = true
-            call = lc.inviteWithParams(url: "sip:peche5@sip.linphone.org", params: param)
+//            call = lc.inviteWithParams(url: "sip:peche5@sip.linphone.org", params: param) kenyrim
+            call = lc.inviteWithParams(url: "sip:kenyrim@sip.linphone.org", params: param)
+//            call = lc.inviteAddressWithParams(addr: remoteAddress, params: param)
             let callView = CallChatView(frame: CGRect(x: 0, y: 0, width: UIDevice.screenWidth, height: UIDevice.screenHeight))
             callView.currentCall = call
             UIApplication.shared.keyWindow?.addSubview(callView)
@@ -305,13 +326,13 @@ class SwiftLinphone {
     // 结束
     func sipTerminateCall() {
         if let incomingCall = lc.currentCall {
-            if incomingCall.dir == .Incoming {
+//            if incomingCall.dir == .Incoming {
                 do {
                     try incomingCall.terminate()
                 } catch  {
                     print(error)
                 }
-            }
+//            }
         }
     }
     
@@ -330,16 +351,18 @@ class SwiftLinphone {
         for i in lc.callLogs {
             
             if i.status != .EarlyAborted {
-                if let friend = i.remoteAddress {
-                    let callMessage = CallMessage()
-                    if !names.contains(friend.username) {
-                        names.append(friend.username)
-                        callMessage.callLog = i
-                        callMessage.callCount = 1
-                        callLogsDic[friend.username] = callMessage
-                    } else {
-                        let insideCallLog = callLogsDic[friend.username]
-                        insideCallLog!.callCount = insideCallLog!.callCount + 1
+                if i.localAddress?.username == lc.defaultProxyConfig?.identityAddress?.username {
+                    if let friend = i.remoteAddress {
+                        let callMessage = CallMessage()
+                        if !names.contains(friend.username) {
+                            names.append(friend.username)
+                            callMessage.callLog = i
+                            callMessage.callCount = 1
+                            callLogsDic[friend.username] = callMessage
+                        } else {
+                            let insideCallLog = callLogsDic[friend.username]
+                            insideCallLog!.callCount = insideCallLog!.callCount + 1
+                        }
                     }
                 }
 //                print(i.startDate,i.dir,i.callId)
@@ -353,7 +376,26 @@ class SwiftLinphone {
         return thisCallLogs
     }
     
+    
+    func ListenMessageRoom(address: Address) {
+//        do {
+//            let toUser = try Factory.Instance.createAddress(addr: "sip:peche5@sip.linphone.org")
+            chatRoomManager = lc.getChatRoom(addr: address)
+            chatRoomManager.addDelegate(delegate: chatroomDelegate)
+//        } catch {
+//            print(error)
+//        }
+    }
+    
     func joinMessageRoom() {
+        do {
+            let toUser = try Factory.Instance.createAddress(addr: "sip:peche5@sip.linphone.org")
+            chatRoomManager = lc.getChatRoom(addr: toUser)
+            chatRoomManager.addDelegate(delegate: chatroomDelegate)
+        } catch {
+            print(error)
+        }
+        
 //        do {
 //            let toUser = try Factory.Instance.createAddress(addr: "sip:peche5@sip.linphone.org")
 //            chatRoomManager = lc.getChatRoom(addr: toUser)
@@ -469,6 +511,25 @@ class SwiftLinphone {
         }
     }
     
+    func changeMicEnable() {
+        if lc.currentCall != nil {
+            lc.micEnabled = !lc.micEnabled
+        }
+    }
+    
+    func changeAudioRoute(isSpeak: Bool) {
+        // 听筒
+        do {
+            if isSpeak {
+                try AVAudioSession.sharedInstance().overrideOutputAudioPort(.none)
+            } else {
+                try AVAudioSession.sharedInstance().overrideOutputAudioPort(.speaker)
+            }
+        } catch {
+            print(error)
+        }
+    }
+    
     func openCamera() {
         
 //        lc.micEnabled = !lc.micEnabled
@@ -532,7 +593,7 @@ class SwiftLinphone {
 
 class LinphoneCallManager: CallDelegate {
     override func onStateChanged(call: Call, cstate: Call.State, message: String) {
-        print(cstate)
+        print("call state change ",cstate)
     }
 }
 
@@ -542,6 +603,7 @@ class LinphoneChatRoomManager: ChatRoomDelegate {
     }
     
     override func onMessageReceived(cr: ChatRoom, msg: ChatMessage) {
+        print(msg.state)
         SwiftLinphone.shared.textMsgStatusCallBack?(msg)
     }
     
@@ -552,6 +614,20 @@ class LinphoneChatRoomManager: ChatRoomDelegate {
     override func onParticipantAdded(cr: ChatRoom, eventLog: EventLog) {
         
     }
+    
+    override func onSubjectChanged(cr: ChatRoom, eventLog: EventLog) {
+        
+    }
+    
+    override func onIsComposingReceived(cr: ChatRoom, remoteAddr: Address, isComposing: Bool) {
+        
+    }
+    
+    override func onParticipantAdminStatusChanged(cr: ChatRoom, eventLog: EventLog) {
+        
+    }
+    
+    
     
     
 }
@@ -569,16 +645,30 @@ class LinphoneCoreManager: CoreDelegate {
     var registStatus: RegistrationState = .None
     
     var addCallBack: ((_ num1: Int) -> ())?
+    
+    override func onChatRoomRead(lc: Core, room: ChatRoom) {
+        
+    }
+    
+
 
     override func onRegistrationStateChanged(lc: Core, cfg: ProxyConfig, cstate: RegistrationState, message: String?) {
 //        print("New registration state \(cstate) for user id \( String(describing: cfg.identityAddress?.asString()))\n")
 //        print(cstate)
-//        print(message!)
+        print(message!)
 //        SwiftLinphone.shared.statusCallBack(cstate)
 //        registStatus = cstate
 //        addCallBack?(cstate.rawValue)
         SwiftLinphone.shared.registStatusCallBack?(cstate)
         
+    }
+    
+    override func onChatRoomStateChanged(lc: Core, cr: ChatRoom, state: ChatRoom.State) {
+        print(state,"ddddd")
+    }
+    
+    override func onMessageReceived(lc: Core, room: ChatRoom, message: ChatMessage) {
+        SwiftLinphone.shared.globalMsgCallBack?(message)
     }
     
     override func onCallLogUpdated(lc: Core, newcl: CallLog) {
@@ -596,6 +686,10 @@ class LinphoneCoreManager: CoreDelegate {
             print("初始化")
         case .IncomingReceived:
             print("来电")
+            if call.callLog?.toAddress?.username == lc.defaultProxyConfig?.identityAddress?.username {
+                SwiftLinphone.shared.comingCallShowView()
+            }
+            
         case .OutgoingRinging:
             print("It is now ringing remotely !\n")
         case .OutgoingEarlyMedia:

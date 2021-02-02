@@ -30,11 +30,15 @@ class TextChatViewController: UIViewController {
             make.top.left.right.bottom.equalToSuperview()
         }
         
-        SwiftLinphone.shared.textMsgStatusCallBack = { message in
+//        SwiftLinphone.shared.textMsgStatusCallBack = { message in
+//            self.dataSource = SwiftLinphone.shared.textChatList()
+//            self.tableView.reloadData()
+//        }
+        
+        SwiftLinphone.shared.globalMsgCallBack = { message in
             self.dataSource = SwiftLinphone.shared.textChatList()
             self.tableView.reloadData()
         }
-        
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -58,7 +62,11 @@ extension TextChatViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let chatdetailVC = ChatDetailViewController()
-        chatdetailVC.selectedChatRoom = dataSource[indexPath.row]
+        let chatRoom = dataSource[indexPath.row]
+        chatdetailVC.selectedChatRoom = chatRoom
+        if let friend = chatRoom.peerAddress {
+            SwiftLinphone.shared.ListenMessageRoom(address: friend)
+        }
         self.navigationController?.pushViewController(chatdetailVC, animated: true)
     }
 }

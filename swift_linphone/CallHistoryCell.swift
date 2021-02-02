@@ -29,7 +29,19 @@ class CallHistoryCell: UITableViewCell {
     }
     
     @IBAction func videoChatClick(_ sender: UIButton) {
-        SwiftLinphone.shared.VideoChat()
+        if let currentCall = callMessage {
+            if let currentLog = currentCall.callLog {
+                if currentLog.dir == .Incoming {
+                    if let callAddress = currentLog.fromAddress {
+                        SwiftLinphone.shared.VideoChat(remoteAddress: callAddress)
+                    }
+                } else {
+                    if let callAddress = currentLog.toAddress {
+                        SwiftLinphone.shared.VideoChat(remoteAddress: callAddress)
+                    }
+                }
+            }
+        }
     }
     
     var callMessage: CallMessage? {

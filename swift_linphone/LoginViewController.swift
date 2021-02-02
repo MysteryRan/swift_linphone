@@ -79,7 +79,6 @@ class LoginViewController: UIViewController {
             make.height.equalTo(5)
         }
         
-        return
         do {
             let secondRoleView = UIButton()
             secondRoleView.backgroundColor = .init(red: 76/255.0, green: 129/255.0, blue: 233/255.0, alpha: 1)

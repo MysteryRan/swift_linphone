@@ -34,6 +34,8 @@ class FaceTimeController: UIViewController {
             make.left.right.top.bottom.equalToSuperview()
         }
         
+//        print(SwiftLinphone.shared.lc.proxyConfigList)
+        
         do {
 //        let titleLab = UILabel()
 //        titleLab.text = "音视频通话"

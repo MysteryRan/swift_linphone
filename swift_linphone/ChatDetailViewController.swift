@@ -44,6 +44,7 @@ class ChatDetailViewController: UIViewController {
         SwiftLinphone.shared.textMsgStatusCallBack = { message in
             self.dataSource.append(message)
             self.tableView.insertRows(at: [IndexPath(row: (self.dataSource.count - 1), section: 0)], with: .none)
+            self.scrollToBottom()
             if let chatRoom = self.selectedChatRoom {
                 if let friend = chatRoom.peerAddress {
                     SwiftLinphone.shared.messageRead(address: friend)

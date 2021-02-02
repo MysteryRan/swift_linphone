@@ -22,6 +22,15 @@ class CallChatView: UIView {
     // 控制view
     let settingView = UIView()
     
+    var chatTime = 0
+    
+    // 是否是扬声器
+    var useSpeaker = false
+    
+    
+    // 开启定时器
+    var time: Timer? = nil
+    
     fileprivate lazy var cameraBtn: UIButton = {
         let cameraBtn = UIButton()
         cameraBtn.setImage(UIImage(named: "camera_default"), for: .normal)
@@ -63,10 +72,14 @@ class CallChatView: UIView {
         return refuseBtn
     }()
     
+    private var isAccept = false
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         self.backgroundColor = .white
+        
+        isAccept = false
         
         self.addSubview(nameLab)
         nameLab.text = "xxxxxxx"
@@ -74,9 +87,7 @@ class CallChatView: UIView {
         self.addSubview(headerImageView)
         
         // 本地远程摄像头
-//        localView.backgroundColor = .red
         self.addSubview(localView)
-//        remoteView.backgroundColor = .blue
         self.addSubview(remoteView)
         
         // 视频开关  麦克风开关  扬声器开关  设置开关
@@ -89,6 +100,9 @@ class CallChatView: UIView {
         
         settingBtn.addTarget(self, action: #selector(stopRecordClcik), for: .touchUpInside)
         
+        // 听筒 扬声器
+        audioBtn.addTarget(self, action: #selector(switchSpeakOrNone), for: .touchUpInside)
+        
         // 接听 拒绝
         self.addSubview(receiveBtn)
         receiveBtn.addTarget(self, action: #selector(receiveClick), for: .touchUpInside)
@@ -96,13 +110,17 @@ class CallChatView: UIView {
         refuseBtn.addTarget(self, action: #selector(refuseClick), for: .touchUpInside)
         
         SwiftLinphone.shared.sipStatusCallBack = { status in
-            print("heree", status)
             if status == .End {
                 self.removeFromSuperview()
             }
             
             if status == .StreamsRunning {
-            
+                self.countDown()
+            }
+            // 连接上了
+            if status == .Connected {
+                self.isAccept = true
+                self.receiveUIaction()
             }
         }
         
@@ -113,18 +131,49 @@ class CallChatView: UIView {
             make.width.equalToSuperview().multipliedBy(0.5)
             make.height.equalTo(44)
         }
+        
+        self.countDown()
+    }
+    
+    private func countDown() {
+        time = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(timerStart), userInfo: nil, repeats: true)
+        RunLoop.current.add(time!, forMode: .common)
+        
+        
+    }
+    
+    @objc func switchSpeakOrNone() {
+        SwiftLinphone.shared.changeAudioRoute(isSpeak: useSpeaker)
+        
+        useSpeaker = !useSpeaker
+    }
+    
+    @objc func timerStart(theTimer: Timer) {
+//        print("123")
+        if let audioStatus = SwiftLinphone.shared.lc.currentCall?.getStats(type: .Audio) {
+            print(audioStatus.receiverLossRate)
+            print("-----")
+            print(audioStatus.downloadBandwidth)
+            print("xxxxx")
+            // 对方是否说话
+            print(audioStatus.rtcpDownloadBandwidth)
+            
+
+        }
+        
+        chatTime += 1
+        timeLab.text = "\(chatTime)"
     }
     
     @objc func stopRecordClcik() {
         SwiftLinphone.shared.stopCall()
     }
     
-    @objc func receiveClick() {
-        SwiftLinphone.shared.sipReceiveCall()
-//        self.removeFromSuperview()
+    func receiveUIaction() {
         self.needsUpdateConstraints()
         self.updateConstraintsIfNeeded()
         receiveBtn.isHidden = true
+        isAccept = true
         refuseBtn.snp.remakeConstraints { (make) in
             make.left.equalToSuperview()
             make.height.equalTo(44)
@@ -140,9 +189,21 @@ class CallChatView: UIView {
         }
     }
     
+    @objc func receiveClick() {
+        SwiftLinphone.shared.sipReceiveCall()
+//        self.removeFromSuperview()
+        receiveUIaction()
+    }
+    
     @objc func refuseClick() {
 //        SwiftLinphone.shared.sipDeclineCall()
 //        self.removeFromSuperview()
+        if isAccept {
+            SwiftLinphone.shared.sipTerminateCall()
+        } else {
+            SwiftLinphone.shared.sipDeclineCall()
+        }
+        self.removeFromSuperview()
     }
     
     var currentCall: Call? {
@@ -156,7 +217,13 @@ class CallChatView: UIView {
                     }
                 } else {
                     if result.cameraEnabled {
+                        // 预览本地视频
+                        SwiftLinphone.shared.lc.videoPreviewEnabled = true
+                        // 视频采集
+                        SwiftLinphone.shared.lc.videoCaptureEnabled = true
                         receiveBtn.setImage(UIImage(named: "call_video_start_default"), for: .normal)
+                        SwiftLinphone.shared.lc.nativeVideoWindowId = UnsafeMutableRawPointer(Unmanaged.passRetained(self.localView).toOpaque())
+                        SwiftLinphone.shared.lc.nativePreviewWindowId = UnsafeMutableRawPointer(Unmanaged.passRetained(self.remoteView).toOpaque())
                     }
                     
                     if let friend = result.remoteAddress {
@@ -171,6 +238,11 @@ class CallChatView: UIView {
         nameLab.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.top.equalToSuperview().offset(40)
+        }
+        
+        timeLab.snp.makeConstraints { (make) in
+            make.top.equalTo(nameLab.snp.bottom).offset(10)
+            make.centerX.equalToSuperview()
         }
         
         headerImageView.snp.makeConstraints { (make) in
