@@ -135,7 +135,25 @@ class LoginViewController: UIViewController {
             }
         }
         
+        
+//        let sus = RealTimeChatView(frame: CGRect(x: RealTimeChatView.suggestXWithWidth(width: 100), y: 200, width: 100, height: 100), color: .red, delegate: self)
+//        sus.show(vc: self)
+        
+//        let ff = ChatContainer(frame: CGRect(x: 0, y: 0, width: UIDevice.screenWidth, height: UIDevice.screenHeight))
+        
+//        DispatchQueue.global().async {
+//
+//        }
+//
+//        DispatchQueue.main.async {
+//            ff.show()
+//        }
+        
+        
+        
     }
+    
+    
     
     
     @objc func secondGotoChat() {
@@ -148,4 +166,10 @@ class LoginViewController: UIViewController {
         UIApplication.shared.keyWindow?.rootViewController = CFBaseTabBarController()
     }
 
+}
+
+extension LoginViewController: ClickToFinishDelegate {
+    func aa() {
+        
+    }
 }

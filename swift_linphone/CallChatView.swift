@@ -132,7 +132,7 @@ class CallChatView: UIView {
             make.height.equalTo(44)
         }
         
-        self.countDown()
+//        self.countDown()
     }
     
     private func countDown() {
@@ -157,8 +157,13 @@ class CallChatView: UIView {
             print("xxxxx")
             // 对方是否说话
             print(audioStatus.rtcpDownloadBandwidth)
-            
-
+        }
+        
+        if let con = SwiftLinphone.shared.lc.conference {
+            print(SwiftLinphone.shared.lc.conferenceSize)
+            for i in con.participants {
+                print(i.username)
+            }
         }
         
         chatTime += 1
@@ -166,7 +171,8 @@ class CallChatView: UIView {
     }
     
     @objc func stopRecordClcik() {
-        SwiftLinphone.shared.stopCall()
+//        SwiftLinphone.shared.stopCall()
+        SwiftLinphone.shared.createMeeting()
     }
     
     func receiveUIaction() {

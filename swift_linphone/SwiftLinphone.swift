@@ -32,7 +32,7 @@ class SwiftLinphone {
     var logManager = LinphoneLoggingServiceManager()
     var callManager = LinphoneCallManager()
     
-    var chatRoomManager: ChatRoom!
+    var sipChatRoom: ChatRoom?
     var chatroomDelegate = LinphoneChatRoomManager()
     
     var from: Address?
@@ -49,6 +49,9 @@ class SwiftLinphone {
     
     // 接收文本信息监听
     var textMsgStatusCallBack: ((_ msg: ChatMessage) -> ())?
+    
+    // 正在输入信息监听
+    var writingCallBack: ((_ composing: Bool) -> ())?
     
     var globalMsgCallBack: ((_ msg: ChatMessage) -> ())?
     
@@ -72,8 +75,11 @@ class SwiftLinphone {
             // 视频的帧率
             lc.preferredFramerate = 10
             
-            print(lc.videoDevicesList)
-            print(lc.videoDevice)
+//            lc.conferenceServerEnabled = true
+//            lc.conferenceLocalInputVolume
+            
+//            print(lc.videoDevicesList)
+//            print(lc.videoDevice)
             
 //            lc.setVideodevice(newValue: "")
 //            call.update(params: <#T##CallParams?#>)
@@ -93,6 +99,42 @@ class SwiftLinphone {
             try! lc.start()
             
 
+            
+        } catch {
+            print(error)
+        }
+    }
+    
+    func createMeeting(address: Address? = nil) {
+        // 预览本地视频
+        lc.videoPreviewEnabled = true
+        // 视频采集
+        lc.videoCaptureEnabled = true
+        
+        do {
+            print("join meeting ")
+            let first = try Factory.Instance.createAddress(addr: "sip:wizard15@sip.linphone.org")
+//            let joinMeeting = try Factory.Instance.createAddress(addr: "sip:testios@sip.linphone.org")
+//            let param = try lc.createCallParams(call: nil)
+//            print(lc.conference)
+            
+//            lc.createConferenceWithParams(params: <#T##ConferenceParams#>)
+            
+//            try lc.conference?.inviteParticipants(addresses: [joinMeeting], params: param)
+            
+            let conParam = try lc.createConferenceParams()
+            conParam.videoEnabled = true
+            conParam.localParticipantEnabled = true
+            let callParam = try lc.createCallParams(call: nil)
+            callParam.audioEnabled = true
+            callParam.videoEnabled = true
+            let conference = try lc.createConferenceWithParams(params: conParam)
+            
+            try conference.inviteParticipants(addresses: [first], params: callParam)
+            
+            let callView = CallChatView(frame: CGRect(x: 0, y: 0, width: UIDevice.screenWidth, height: UIDevice.screenHeight))
+//            callView.currentCall = call
+            UIApplication.shared.keyWindow?.addSubview(callView)
             
         } catch {
             print(error)
@@ -133,7 +175,7 @@ class SwiftLinphone {
             
             lc.addDelegate(delegate: coreManager)
             
-            print(lc.authInfoList)
+//            print(lc.authInfoList)
         } catch {
             print(error)
         }
@@ -271,8 +313,8 @@ class SwiftLinphone {
             param.videoEnabled = true
             param.audioEnabled = true
 //            call = lc.inviteWithParams(url: "sip:peche5@sip.linphone.org", params: param) kenyrim
-            call = lc.inviteWithParams(url: "sip:kenyrim@sip.linphone.org", params: param)
-//            call = lc.inviteAddressWithParams(addr: remoteAddress, params: param)
+//            call = lc.inviteWithParams(url: "sip:kenyrim@sip.linphone.org", params: param)
+            call = lc.inviteAddressWithParams(addr: remoteAddress, params: param)
             let callView = CallChatView(frame: CGRect(x: 0, y: 0, width: UIDevice.screenWidth, height: UIDevice.screenHeight))
             callView.currentCall = call
             UIApplication.shared.keyWindow?.addSubview(callView)
@@ -293,21 +335,31 @@ class SwiftLinphone {
         lc.enterBackground()
     }
     
-    func getChatList() -> [ChatMessage] {
-        let evss = chatRoomManager.getHistoryMessageEvents(nbEvents: 0)
-        return evss.compactMap { $0.chatMessage }
+//    func getChatList() -> [ChatMessage] {
+//        let evss = chatRoomManager.getHistoryMessageEvents(nbEvents: 0)
+//        return evss.compactMap { $0.chatMessage }
+//    }
+    
+    func deleteChooseChatRoom(chatroom: ChatRoom) {
+        if lc == nil {
+            return
+        }
+        lc.deleteChatRoom(cr: chatroom)
     }
     
     func textChatList() -> [ChatRoom] {
         if lc == nil {
             return [ChatRoom]()
         }
+//        for i in lc.chatRooms {
+//            lc.deleteChatRoom(cr: i)
+//        }
         return lc.chatRooms
     }
     
     func messageRead(address: Address) {
-        let currentRoomManager = lc.getChatRoom(addr: address)
-        currentRoomManager?.markAsRead()
+        sipChatRoom = lc.getChatRoom(addr: address)
+        sipChatRoom?.markAsRead()
     }
     
     // 拒绝
@@ -380,8 +432,10 @@ class SwiftLinphone {
     func ListenMessageRoom(address: Address) {
 //        do {
 //            let toUser = try Factory.Instance.createAddress(addr: "sip:peche5@sip.linphone.org")
-            chatRoomManager = lc.getChatRoom(addr: address)
-            chatRoomManager.addDelegate(delegate: chatroomDelegate)
+            sipChatRoom = lc.getChatRoom(addr: address)
+            sipChatRoom!.addDelegate(delegate: chatroomDelegate)
+        
+        
 //        } catch {
 //            print(error)
 //        }
@@ -390,8 +444,9 @@ class SwiftLinphone {
     func joinMessageRoom() {
         do {
             let toUser = try Factory.Instance.createAddress(addr: "sip:peche5@sip.linphone.org")
-            chatRoomManager = lc.getChatRoom(addr: toUser)
-            chatRoomManager.addDelegate(delegate: chatroomDelegate)
+            if let chatRoomManager = lc.getChatRoom(addr: toUser) {
+                chatRoomManager.addDelegate(delegate: chatroomDelegate)
+            }
         } catch {
             print(error)
         }
@@ -446,8 +501,12 @@ class SwiftLinphone {
     
     func sendMessage(msg: String) {
         do {
-            let chatmessage = try chatRoomManager.createMessage(message: msg)
-            chatRoomManager.sendChatMessage(msg: chatmessage)
+            if let room = sipChatRoom {
+                 let chatmessage = try room.createMessage(message: msg)
+                chatmessage.send()
+            }
+            
+//            chatRoomManager.sendChatMessage(msg: chatmessage)
         } catch {
             
         }
@@ -455,8 +514,12 @@ class SwiftLinphone {
     
     func createMessage(msg: String) -> ChatMessage? {
         do {
-            let chatmessage = try chatRoomManager.createMessage(message: msg)
-            return chatmessage
+            if let room = sipChatRoom {
+                let chatmessage = try room.createMessage(message: msg)
+                return chatmessage
+            }
+            return nil
+            
         } catch {
             print(error)
             return nil
@@ -509,6 +572,58 @@ class SwiftLinphone {
         } catch {
             print("call error")
         }
+    }
+    
+    
+    func createOne2OneChat(name: String) -> ChatRoom? {
+        do {
+            let toName = "sip:" + name + "@sip.linphone.org"
+//            let personOne = try Factory.Instance.createAddress(addr: toName)
+            let personOne = try Factory.Instance.createAddress(addr: "sip:kenyrim@sip.linphone.org")
+            
+//            var currentChatRoom: ChatRoom?
+            
+            sipChatRoom = lc.getChatRoom(addr: personOne)
+            if sipChatRoom != nil {
+                return sipChatRoom
+            }
+            
+            sipChatRoom = lc.findOneToOneChatRoom(localAddr: lc.defaultProxyConfig!.contact!.clone()!, participantAddr: personOne, encrypted: false)
+            if sipChatRoom != nil {
+                return sipChatRoom
+            }
+            
+            let chatRoomPa =  try lc.createDefaultChatRoomParams()
+            chatRoomPa.groupEnabled = true
+            chatRoomPa.encryptionEnabled = false
+//            let groupChatRoom = try lc.createChatRoom(params: chatRoomPa,localAddr:lc.defaultProxyConfig!.identityAddress! ,subject: "群聊", participants: [personOne])
+            sipChatRoom = try lc.createChatRoom(params: chatRoomPa, subject: "123", participants: [personOne])
+//            if let room = try lc.createChatRoom(params: chatRoomPa, subject: "123", participants: [personOne]) {
+            if let room = sipChatRoom {
+                room.addDelegate(delegate: chatroomDelegate)
+            }
+//            }
+            return sipChatRoom
+        } catch {
+            print(error)
+        }
+        return nil
+    }
+    
+    func createGroupTextChat() -> ChatRoom? {
+        do {
+            let personOne = try Factory.Instance.createAddress(addr: "sip:wizard42@sip.linphone.org")
+            let personTwo = try Factory.Instance.createAddress(addr: "sip:kenyrim@sip.linphone.org")
+            let chatRoomPa =  try lc.createDefaultChatRoomParams()
+            chatRoomPa.groupEnabled = true
+            chatRoomPa.encryptionEnabled = false
+            let groupChatRoom = try lc.createChatRoom(params: chatRoomPa,localAddr:lc.defaultProxyConfig!.identityAddress! ,subject: "群聊", participants: [personOne,personTwo])
+            groupChatRoom.addDelegate(delegate: chatroomDelegate)
+            return groupChatRoom
+        } catch {
+            print(error)
+        }
+        return nil
     }
     
     func changeMicEnable() {
@@ -604,14 +719,24 @@ class LinphoneChatRoomManager: ChatRoomDelegate {
     
     override func onMessageReceived(cr: ChatRoom, msg: ChatMessage) {
         print(msg.state)
-        SwiftLinphone.shared.textMsgStatusCallBack?(msg)
+//        SwiftLinphone.shared.textMsgStatusCallBack?(msg)
     }
     
     override func onChatMessageSent(cr: ChatRoom, eventLog: EventLog) {
         
     }
     
+    override func onChatMessageReceived(cr: ChatRoom, eventLog: EventLog) {
+        if let msg = eventLog.chatMessage {
+            SwiftLinphone.shared.textMsgStatusCallBack?(msg)
+        }
+    }
+    
     override func onParticipantAdded(cr: ChatRoom, eventLog: EventLog) {
+        
+    }
+    
+    override func onConferenceJoined(cr: ChatRoom, eventLog: EventLog) {
         
     }
     
@@ -620,13 +745,13 @@ class LinphoneChatRoomManager: ChatRoomDelegate {
     }
     
     override func onIsComposingReceived(cr: ChatRoom, remoteAddr: Address, isComposing: Bool) {
-        
+//        print(isComposing)
+        SwiftLinphone.shared.writingCallBack?(isComposing)
     }
     
     override func onParticipantAdminStatusChanged(cr: ChatRoom, eventLog: EventLog) {
         
     }
-    
     
     
     
@@ -659,7 +784,10 @@ class LinphoneCoreManager: CoreDelegate {
 //        SwiftLinphone.shared.statusCallBack(cstate)
 //        registStatus = cstate
 //        addCallBack?(cstate.rawValue)
-        SwiftLinphone.shared.registStatusCallBack?(cstate)
+        if cstate == .Ok {
+            SwiftLinphone.shared.registStatusCallBack?(cstate)
+        }
+        
         
     }
     
@@ -668,6 +796,8 @@ class LinphoneCoreManager: CoreDelegate {
     }
     
     override func onMessageReceived(lc: Core, room: ChatRoom, message: ChatMessage) {
+        
+        
         SwiftLinphone.shared.globalMsgCallBack?(message)
     }
     
@@ -701,7 +831,7 @@ class LinphoneCoreManager: CoreDelegate {
             
 //            SwiftLinphone.shared.recordingFilePathFromCall(address: call.remoteAddress!.username)
             
-            SwiftLinphone.shared.sipCallRecording()
+//            SwiftLinphone.shared.sipCallRecording()
             
         case .End:
             print("Call is terminated.\n")

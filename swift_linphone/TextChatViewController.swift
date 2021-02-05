@@ -17,10 +17,23 @@ class TextChatViewController: UIViewController {
     
     var dataSource = [ChatRoom]()
 
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.dataSource = SwiftLinphone.shared.textChatList()
+        self.tableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         self.navigationItem.title = "消息"
+        if #available(iOS 11.0, *) {
+            if UIDevice.isiPhoneXSierra {
+//                self.navigationController?.navigationBar.prefersLargeTitles = true
+            }
+        }
 
         self.view.addSubview(tableView)
         tableView.separatorStyle = .none
@@ -30,22 +43,47 @@ class TextChatViewController: UIViewController {
             make.top.left.right.bottom.equalToSuperview()
         }
         
-//        SwiftLinphone.shared.textMsgStatusCallBack = { message in
-//            self.dataSource = SwiftLinphone.shared.textChatList()
-//            self.tableView.reloadData()
-//        }
+        SwiftLinphone.shared.textMsgStatusCallBack = { message in
+            self.dataSource = SwiftLinphone.shared.textChatList()
+            self.tableView.reloadData()
+        }
         
         SwiftLinphone.shared.globalMsgCallBack = { message in
             self.dataSource = SwiftLinphone.shared.textChatList()
             self.tableView.reloadData()
         }
         
+        SwiftLinphone.shared.registStatusCallBack = { state in
+            if state == .Ok {
+
+
+//                SwiftLinphone.shared.getChatList()
+            }
+        }
+        
+        
+        
         tableView.delegate = self
         tableView.dataSource = self
-        self.dataSource = SwiftLinphone.shared.textChatList()
-        self.tableView.reloadData()
-    }
+        
 
+        
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        let sus = RealTimeChatView(frame: CGRect(x: RealTimeChatView.suggestXWithWidth(width: 100), y: 200, width: 100, height: 100), color: .red, delegate: self)
+//        sus.show(vc: self)
+        
+//        SwiftLinphone.shared.createGroupTextChat()
+        
+        
+    }
+}
+
+extension TextChatViewController: ClickToFinishDelegate {
+    func aa() {
+        print("dd")
+    }
 }
 
 extension TextChatViewController: UITableViewDataSource {
@@ -56,7 +94,14 @@ extension TextChatViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! ChatHistoryCell
         cell.selectionStyle = .none
-        cell.chatHistory = dataSource[indexPath.row]
+        let indexChatRoom = dataSource[indexPath.row]
+        cell.chatHistory = indexChatRoom
+        cell.outTableView = tableView
+        cell.deleteChatRoomAction = {
+            SwiftLinphone.shared.deleteChooseChatRoom(chatroom: indexChatRoom)
+            self.dataSource.remove(at: indexPath.row)
+            self.tableView.reloadData()
+        }
         return cell
     }
     

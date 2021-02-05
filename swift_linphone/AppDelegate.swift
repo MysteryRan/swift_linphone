@@ -40,7 +40,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate {
         window?.rootViewController = rootVC
         window?.makeKeyAndVisible()
         
-//        UIApplication.shared.keyWindow?.addSubview(CallChatView(frame: CGRect(x: 0, y: 0, width: UIDevice.screenWidth, height: UIDevice.screenHeight)))
+//        let topInset: CGFloat = UIDevice.isiPhoneXSierra ? 40 : 25
+        UIApplication.shared.keyWindow?.addSubview(InComingView(frame: CGRect(x: 0, y: 0, width: UIDevice.screenWidth, height: (UIDevice.screenWidth - 20) / 5.0 * 2.0)))
     }
     
     func applicationDidEnterBackground(_ application: UIApplication) {

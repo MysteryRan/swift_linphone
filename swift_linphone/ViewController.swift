@@ -45,8 +45,8 @@ class ViewController: UIViewController {
        
         tableView.register(UINib.init(nibName: "ChatTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
         
-        dataSource = SwiftLinphone.shared.getChatList()
-        print(dataSource.count)
+//        dataSource = SwiftLinphone.shared.getChatList()
+//        print(dataSource.count)
         self.tableView.reloadData()
     }
     

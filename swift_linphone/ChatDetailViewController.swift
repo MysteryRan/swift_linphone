@@ -18,6 +18,8 @@ class ChatDetailViewController: UIViewController {
     let chatBar = UIView()
     let chatTextView = UITextView()
     
+    let typingLab = UILabel()
+    
     var dataSource = [ChatMessage]()
     
     var selectedChatRoom: ChatRoom?
@@ -25,11 +27,16 @@ class ChatDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         setupUI()
         initializeObserve()
         
-        
+        SwiftLinphone.shared.writingCallBack = { composing in
+            if composing {
+                self.typingLab.text = "typing..."
+            } else {
+                self.typingLab.text = "onLine"
+            }
+        }
  
         
         SwiftLinphone.shared.registStatusCallBack = { cstatus in
@@ -69,6 +76,15 @@ class ChatDetailViewController: UIViewController {
         exitKeyboardTap.numberOfTapsRequired = 1
         tableView.addGestureRecognizer(exitKeyboardTap)
         
+//        self.extendedLayoutIncludesOpaqueBars = true
+//        if #available(iOS 11.0, *) {
+//            tableView.contentInsetAdjustmentBehavior = .never
+//        } else {
+//            self.automaticallyAdjustsScrollViewInsets = false
+//        }
+//        tableView.contentInset = UIEdgeInsets(top: 64, left: 0, bottom: 49, right:0)
+//
+//        tableView.scrollIndicatorInsets = tableView.contentInset
         
         
     }
@@ -82,8 +98,10 @@ class ChatDetailViewController: UIViewController {
     func scrollToBottom() {
         self.tableView.reloadData()
         let rows = tableView.numberOfRows(inSection: 0)
-        let bottomIndexPath = IndexPath(row: rows - 1, section: 0)
-        tableView.scrollToRow(at: bottomIndexPath, at: .bottom, animated: false)
+        if rows > 0 {
+            let bottomIndexPath = IndexPath(row: rows - 1, section: 0)
+            tableView.scrollToRow(at: bottomIndexPath, at: .bottom, animated: false)
+        }
     }
     
     @objc func exitKeyboard() {
@@ -100,11 +118,12 @@ class ChatDetailViewController: UIViewController {
     func setupUI() {
         // 底部工具条
         self.view.backgroundColor = .white
-
+        let bottomInset = UIDevice.isiPhoneXSierra ? 20 : 0
         self.view.addSubview(chatBar)
         chatBar.snp.makeConstraints { (make) in
-            make.left.right.bottom.equalToSuperview()
+            make.left.right.equalToSuperview()
             make.height.equalTo(44)
+            make.bottom.equalToSuperview().inset(bottomInset)
         }
         
         // 输入文字
@@ -125,7 +144,28 @@ class ChatDetailViewController: UIViewController {
         
         if let chatRoom = selectedChatRoom {
             if let friend = chatRoom.peerAddress {
-                self.navigationItem.title = friend.username
+//                self.navigationItem.title = friend.username
+//                self.navigationItem.prompt = "0p0p0p"
+                let titleLab = UILabel()
+                titleLab.text = friend.username
+                let tView = UIView()
+                tView.frame = CGRect(x: 0, y: 0, width: 100, height: 44)
+                typingLab.text = "onLine"
+                typingLab.font = UIFont.systemFont(ofSize: 11)
+                titleLab.textAlignment = .center
+                typingLab.textAlignment = .center
+                
+                tView.addSubview(typingLab)
+                tView.addSubview(titleLab)
+                titleLab.snp.makeConstraints { (make) in
+                    make.left.right.top.equalToSuperview()
+                }
+                typingLab.snp.makeConstraints { (make) in
+                    make.left.right.equalToSuperview()
+                    make.top.equalTo(titleLab.snp.bottom)
+                }
+                
+                self.navigationItem.titleView = tView
                 SwiftLinphone.shared.messageRead(address: friend)
             }
             dataSource = chatRoom.getHistory(nbMessage: 0)
@@ -140,10 +180,12 @@ class ChatDetailViewController: UIViewController {
         UIView.animate(withDuration: duration) {
             let cg: CGRect = notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
 //            self.chatBar.frame.origin.y = UIScreen.main.bounds.height - cg.height - 44
+            let bottomInset = UIDevice.isiPhoneXSierra ? 20 : 0
             if cg.origin.y == UIDevice.screenHeight {
                 self.chatBar.snp.remakeConstraints { (make) in
-                    make.left.right.bottom.equalToSuperview()
+                    make.left.right.equalToSuperview()
                     make.height.equalTo(44)
+                    make.bottom.equalToSuperview().inset(bottomInset)
                 }
                 return
             }
@@ -190,6 +232,9 @@ extension ChatDetailViewController: UIGestureRecognizerDelegate {
 
 extension ChatDetailViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        // 正在输入
+        SwiftLinphone.shared.sipChatRoom?.compose()
+        
         if text == "\n" {
             if let message = textView.text {
                 SwiftLinphone.shared.sendMessage(msg: message)

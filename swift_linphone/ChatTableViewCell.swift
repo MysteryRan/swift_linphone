@@ -60,7 +60,7 @@ class ChatTableViewCell: UITableViewCell {
                 
                 
                 
-                print(result.state)
+//                print(result.state)
 //                print(bubbleFrame)
                 self.messageTimeLab.text = ChatTableViewCell.timeCover(time: result.time)
                 self.textContentLab.text = result.textContent
