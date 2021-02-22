@@ -20,6 +20,7 @@ class CFBaseTabBarController: UITabBarController {
         setUpChildController(vc: CFBaseNavigationController(rootViewController: TextChatViewController()), title: "文本", image: UIImage.init(named: "order_unselected")!, selectedImage: UIImage.init(named: "order_selected")!)
         setUpChildController(vc: CFBaseNavigationController(rootViewController: FaceTimeController()), title: "通话", image: UIImage.init(named: "me_unselected")!, selectedImage: UIImage.init(named: "me_selected")!)
         setUpChildController(vc: CFBaseNavigationController(rootViewController: FriendViewController()), title: "通话", image: UIImage.init(named: "me_unselected")!, selectedImage: UIImage.init(named: "me_selected")!)
+        setUpChildController(vc: CFBaseNavigationController(rootViewController: FuncViewController()), title: "功能", image: UIImage.init(named: "me_unselected")!, selectedImage: UIImage.init(named: "me_selected")!)
     }
 }
 

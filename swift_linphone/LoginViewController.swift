@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class LoginViewController: UIViewController {
 
@@ -13,6 +14,30 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         
 
+//        let destination = DownloadRequest.suggestedDownloadDestination(for: .documentDirectory)
+//        print(destination)
+//        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+//        let basePath = paths.count > 0 ? paths[0] : nil
+        
+        let destination: DownloadRequest.Destination = { _, _ in
+            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            let fileURL = documentsURL.appendingPathComponent("11.m4a")
+
+            return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
+        }
+        
+        
+        
+
+//        AF.download("https://httpbin.org/image/png", to: destination)
+        
+//        AF.download("http://aod.cos.tx.xmcdn.com/group31/M0B/BB/58/wKgJSVmSRjvCZ4wwAAugz-tllHw858.m4a",to: destination)
+//            .downloadProgress { progress in
+//                print("Download Progress: \(progress.fractionCompleted)")
+//            }
+//            .responseData { response in
+//
+//            }
         
         self.view.backgroundColor = .white
         
@@ -139,8 +164,9 @@ class LoginViewController: UIViewController {
 //        let sus = RealTimeChatView(frame: CGRect(x: RealTimeChatView.suggestXWithWidth(width: 100), y: 200, width: 100, height: 100), color: .red, delegate: self)
 //        sus.show(vc: self)
         
+        // 悬浮窗
 //        let ff = ChatContainer(frame: CGRect(x: 0, y: 0, width: UIDevice.screenWidth, height: UIDevice.screenHeight))
-        
+//
 //        DispatchQueue.global().async {
 //
 //        }
