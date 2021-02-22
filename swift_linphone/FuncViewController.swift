@@ -176,7 +176,7 @@ class FuncViewController: UIViewController {
         maskImageView?.snp.makeConstraints({ (make) in
             make.left.equalToSuperview()
             make.top.equalTo(recordingAudioPlot.snp.bottom)
-            make.right.equalTo(recordingAudioPlot)
+            make.right.equalToSuperview()
             make.bottom.equalToSuperview()
         })
         
@@ -185,7 +185,7 @@ class FuncViewController: UIViewController {
         bottomWaveformView.snp.makeConstraints({ (make) in
             make.left.equalToSuperview()
             make.top.equalTo(recordingAudioPlot.snp.bottom)
-            make.right.equalTo(recordingAudioPlot)
+            make.right.equalToSuperview()
             make.bottom.equalToSuperview()
         })
         
