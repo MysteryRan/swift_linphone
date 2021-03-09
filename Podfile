@@ -11,6 +11,8 @@ target 'swift_linphone' do
   pod 'linphone-sdk', '~>4.4.24'
   pod 'SnapKit'
   # pod 'EZAudio'
+#  pod 'InputBarAccessoryView'
+  pod 'MessageKit'
   pod 'Alamofire'
 
 end

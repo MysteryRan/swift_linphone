@@ -15,10 +15,10 @@ class CFBaseNavigationController: UINavigationController, UIGestureRecognizerDel
         super.viewDidLoad()
 
         interactivePopGestureRecognizer?.delegate = self
-////        self.navigationBar.setBackgroundImage(#imageLiteral(resourceName: "bg"), for: .default)
-//        self.navigationController?.navigationBar.tintColor = UIColor.color("#262626");
-//        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.color("#262626")];
-//        self.navigationBar.shadowImage = UIImage();
+//        self.navigationBar.setBackgroundImage(#imageLiteral(resourceName: "bg"), for: .default)
+        self.navigationController?.navigationBar.tintColor = UIColor.color("#262626");
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.color("#262626")];
+        self.navigationBar.shadowImage = UIImage();
         self.navigationBar.setBackgroundImage(UIImage(named: "navigationbar_bg_white"), for: UIBarMetrics.default);
         self.navigationItem.rightBarButtonItem?.setTitleTextAttributes([NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 14)], for: .normal)
         self.navigationBar.shadowImage = UIImage();

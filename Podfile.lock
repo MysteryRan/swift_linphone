@@ -1,5 +1,8 @@
 PODS:
   - Alamofire (5.4.1)
+  - InputBarAccessoryView (5.2.3):
+    - InputBarAccessoryView/Core (= 5.2.3)
+  - InputBarAccessoryView/Core (5.2.3)
   - linphone-sdk (4.4.24):
     - linphone-sdk/all-frameworks (= 4.4.24)
     - linphone-sdk/app-extension (= 4.4.24)
@@ -15,25 +18,32 @@ PODS:
   - linphone-sdk/swift (4.4.24):
     - linphone-sdk/app-extension-swift
     - linphone-sdk/basic-frameworks
+  - MessageKit (3.5.0):
+    - InputBarAccessoryView (~> 5.2.1)
   - SnapKit (5.0.1)
 
 DEPENDENCIES:
   - Alamofire
   - linphone-sdk (~> 4.4.24)
+  - MessageKit
   - SnapKit
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - Alamofire
+    - InputBarAccessoryView
+    - MessageKit
     - SnapKit
   https://gitlab.linphone.org/BC/public/podspec.git:
     - linphone-sdk
 
 SPEC CHECKSUMS:
   Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
+  InputBarAccessoryView: f814a0317d47687fafc6bac9e4df6015eaf5b764
   linphone-sdk: ee95301f9902fa341c0d58613443f2c6fb594bae
+  MessageKit: fb539583599cd914e8e2d41fe7bdceb4bf686565
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
 
-PODFILE CHECKSUM: fc65e5ff944140c164b4b1ca52171095d30204d5
+PODFILE CHECKSUM: c42b05eb34d34fc78369d07062ba7eee2dbb3de1
 
 COCOAPODS: 1.10.1

@@ -129,7 +129,8 @@ private extension WaveformImageDrawer {
             if case .striped = configuration.style, (Int(x) % drawEveryNSamples != 0) {
                 continue
             }
-
+            print(CGPoint(x: xPos, y: drawingAmplitudeUp))
+            print(CGPoint(x: xPos, y: drawingAmplitudeDown))
             path.move(to: CGPoint(x: xPos, y: drawingAmplitudeUp))
             path.addLine(to: CGPoint(x: xPos, y: drawingAmplitudeDown))
         }

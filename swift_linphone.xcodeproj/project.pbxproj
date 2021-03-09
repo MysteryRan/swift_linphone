@@ -23,6 +23,17 @@
 		1A80D26225CB86BC0071C5DA /* FriendTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A80D26025CB86BC0071C5DA /* FriendTableViewCell.xib */; };
 		1A80D26D25CB8AD70071C5DA /* FriendHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A80D26C25CB8AD70071C5DA /* FriendHeaderView.swift */; };
 		1A80D27325CB8B1C0071C5DA /* FriendHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A80D27225CB8B1C0071C5DA /* FriendHeaderView.xib */; };
+		1A86CECF25E8D8B2000751D4 /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A86CECE25E8D8B2000751D4 /* DemoViewController.swift */; };
+		1A86CED225E8D8F6000751D4 /* BasicAudioController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A86CED125E8D8F6000751D4 /* BasicAudioController.swift */; };
+		1A86CED725E8D924000751D4 /* MockMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A86CED425E8D924000751D4 /* MockMessage.swift */; };
+		1A86CED825E8D924000751D4 /* MockSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A86CED525E8D924000751D4 /* MockSocket.swift */; };
+		1A86CED925E8D924000751D4 /* MockUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A86CED625E8D924000751D4 /* MockUser.swift */; };
+		1A86CEDD25E8D94F000751D4 /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A86CEDB25E8D94F000751D4 /* SampleData.swift */; };
+		1A86CEDE25E8D94F000751D4 /* Lorem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A86CEDC25E8D94F000751D4 /* Lorem.swift */; };
+		1A86CEE125E8DA1B000751D4 /* MessageKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A86CEE025E8DA1B000751D4 /* MessageKitViewController.swift */; };
+		1A86CEE625E8DA90000751D4 /* CustomMessageFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A86CEE325E8DA90000751D4 /* CustomMessageFlowLayout.swift */; };
+		1A86CEE725E8DA90000751D4 /* TableViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A86CEE425E8DA90000751D4 /* TableViewCells.swift */; };
+		1A86CEE825E8DA90000751D4 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A86CEE525E8DA90000751D4 /* CustomCell.swift */; };
 		1A878B0725DF4EF900B0303C /* FuncViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A878B0625DF4EF900B0303C /* FuncViewController.swift */; };
 		1A91624E25E0CCE3005399DE /* simple-drum-beat.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1A91624D25E0CCE3005399DE /* simple-drum-beat.wav */; };
 		1A969D0F25C2488000CDD342 /* CallHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A969D0D25C2488000CDD342 /* CallHistoryCell.swift */; };
@@ -70,6 +81,17 @@
 		1A80D26025CB86BC0071C5DA /* FriendTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendTableViewCell.xib; sourceTree = "<group>"; };
 		1A80D26C25CB8AD70071C5DA /* FriendHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendHeaderView.swift; sourceTree = "<group>"; };
 		1A80D27225CB8B1C0071C5DA /* FriendHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendHeaderView.xib; sourceTree = "<group>"; };
+		1A86CECE25E8D8B2000751D4 /* DemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
+		1A86CED125E8D8F6000751D4 /* BasicAudioController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicAudioController.swift; sourceTree = "<group>"; };
+		1A86CED425E8D924000751D4 /* MockMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockMessage.swift; sourceTree = "<group>"; };
+		1A86CED525E8D924000751D4 /* MockSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockSocket.swift; sourceTree = "<group>"; };
+		1A86CED625E8D924000751D4 /* MockUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockUser.swift; sourceTree = "<group>"; };
+		1A86CEDB25E8D94F000751D4 /* SampleData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
+		1A86CEDC25E8D94F000751D4 /* Lorem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lorem.swift; sourceTree = "<group>"; };
+		1A86CEE025E8DA1B000751D4 /* MessageKitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageKitViewController.swift; sourceTree = "<group>"; };
+		1A86CEE325E8DA90000751D4 /* CustomMessageFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomMessageFlowLayout.swift; sourceTree = "<group>"; };
+		1A86CEE425E8DA90000751D4 /* TableViewCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCells.swift; sourceTree = "<group>"; };
+		1A86CEE525E8DA90000751D4 /* CustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		1A878B0625DF4EF900B0303C /* FuncViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuncViewController.swift; sourceTree = "<group>"; };
 		1A91624D25E0CCE3005399DE /* simple-drum-beat.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "simple-drum-beat.wav"; sourceTree = "<group>"; };
 		1A969D0D25C2488000CDD342 /* CallHistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallHistoryCell.swift; sourceTree = "<group>"; };
@@ -176,6 +198,17 @@
 				1A91624D25E0CCE3005399DE /* simple-drum-beat.wav */,
 				1AB63ED525B6C51800A915C5 /* Assets.xcassets */,
 				1AB63ED725B6C51800A915C5 /* LaunchScreen.storyboard */,
+				1A86CECE25E8D8B2000751D4 /* DemoViewController.swift */,
+				1A86CED125E8D8F6000751D4 /* BasicAudioController.swift */,
+				1A86CED425E8D924000751D4 /* MockMessage.swift */,
+				1A86CED525E8D924000751D4 /* MockSocket.swift */,
+				1A86CED625E8D924000751D4 /* MockUser.swift */,
+				1A86CEDC25E8D94F000751D4 /* Lorem.swift */,
+				1A86CEDB25E8D94F000751D4 /* SampleData.swift */,
+				1A86CEE025E8DA1B000751D4 /* MessageKitViewController.swift */,
+				1A86CEE525E8DA90000751D4 /* CustomCell.swift */,
+				1A86CEE325E8DA90000751D4 /* CustomMessageFlowLayout.swift */,
+				1A86CEE425E8DA90000751D4 /* TableViewCells.swift */,
 				1AFC7EA225E38A8400F595D1 /* DSWaveformImage */,
 				1AFC7EAE25E38E0600F595D1 /* DSWaveformImage.h */,
 				1AB63EDA25B6C51800A915C5 /* Info.plist */,
@@ -342,7 +375,9 @@
 				1AB63ED125B6C51400A915C5 /* ViewController.swift in Sources */,
 				1A969D1925C25AF800CDD342 /* CallMessage.swift in Sources */,
 				1A80D25D25CB82FB0071C5DA /* FriendViewController.swift in Sources */,
+				1A86CEE625E8DA90000751D4 /* CustomMessageFlowLayout.swift in Sources */,
 				1A4E5C0625C941B1001760E1 /* InComingView.swift in Sources */,
+				1A86CED725E8D924000751D4 /* MockMessage.swift in Sources */,
 				1AB94B4525C126D90096F8DE /* TextChatViewController.swift in Sources */,
 				1AFC7EAB25E38A8400F595D1 /* WaveformAnalyzer.swift in Sources */,
 				1A2453E125C106B300CAB099 /* UIColorHelper.swift in Sources */,
@@ -352,21 +387,30 @@
 				1AB94B5925C12A490096F8DE /* ChatHistoryCell.swift in Sources */,
 				1AFC7EA925E38A8400F595D1 /* TempiFFT.swift in Sources */,
 				1A878B0725DF4EF900B0303C /* FuncViewController.swift in Sources */,
+				1A86CED225E8D8F6000751D4 /* BasicAudioController.swift in Sources */,
 				1A1ACFFB25BE6D8B00A9A3EF /* ChatTextView.swift in Sources */,
 				1AD09C6B25B7BB9800047895 /* SwiftLinphone.swift in Sources */,
 				1AB94B5D25C135230096F8DE /* ChatDetailViewController.swift in Sources */,
+				1A86CEE725E8DA90000751D4 /* TableViewCells.swift in Sources */,
 				1A80D26125CB86BC0071C5DA /* FriendTableViewCell.swift in Sources */,
 				1AB94B7225C14E0A0096F8DE /* FaceTimeController.swift in Sources */,
+				1A86CEDE25E8D94F000751D4 /* Lorem.swift in Sources */,
 				1A3C747B25B94F6400700138 /* ChatViewController.swift in Sources */,
 				1AA4BD5B25BFB9B3002ADC6B /* ChatTableViewCell.swift in Sources */,
+				1A86CECF25E8D8B2000751D4 /* DemoViewController.swift in Sources */,
 				1AB63ECD25B6C51400A915C5 /* AppDelegate.swift in Sources */,
 				1A969D2425C27C7E00CDD342 /* CallChatView.swift in Sources */,
+				1A86CEE125E8DA1B000751D4 /* MessageKitViewController.swift in Sources */,
+				1A86CEDD25E8D94F000751D4 /* SampleData.swift in Sources */,
 				1A1AC3BF25CA2D1900A618C4 /* RealTimeChatView.swift in Sources */,
 				1AFC7EA825E38A8400F595D1 /* WaveformImageDrawer.swift in Sources */,
 				1A1AC3BC25CA2BFA00A618C4 /* ChatContainer.swift in Sources */,
 				1AFC7EAC25E38A8400F595D1 /* WaveformImageTypes.swift in Sources */,
 				1A80D26D25CB8AD70071C5DA /* FriendHeaderView.swift in Sources */,
 				1A1ACFFE25BE8B2000A9A3EF /* UIDeviceHelper.swift in Sources */,
+				1A86CED925E8D924000751D4 /* MockUser.swift in Sources */,
+				1A86CEE825E8DA90000751D4 /* CustomCell.swift in Sources */,
+				1A86CED825E8D924000751D4 /* MockSocket.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -519,7 +563,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4JU7BFQ6NP;
 				INFOPLIST_FILE = swift_linphone/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -544,7 +588,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4JU7BFQ6NP;
 				INFOPLIST_FILE = swift_linphone/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

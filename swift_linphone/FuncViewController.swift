@@ -177,7 +177,7 @@ class FuncViewController: UIViewController {
             make.left.equalToSuperview()
             make.top.equalTo(recordingAudioPlot.snp.bottom)
             make.right.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.bottom.equalToSuperview().inset(164)
         })
         
         self.view.addSubview(bottomWaveformView)
@@ -186,7 +186,7 @@ class FuncViewController: UIViewController {
             make.left.equalToSuperview()
             make.top.equalTo(recordingAudioPlot.snp.bottom)
             make.right.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.bottom.equalToSuperview().inset(164)
         })
         
         
@@ -206,7 +206,7 @@ class FuncViewController: UIViewController {
             position: .bottom,
             paddingFactor: 0.5,
             stripeWidth: 25,
-            stripeSpacing: 5
+            stripeSpacing: 1
         )
 
         let configuration2 = WaveformConfiguration(
@@ -215,7 +215,7 @@ class FuncViewController: UIViewController {
             position: .bottom,
             paddingFactor: 0.5,
             stripeWidth: 25,
-            stripeSpacing: 5
+            stripeSpacing: 1
         )
 
         waveformImageDrawer.waveformImage(fromAudioAt: audioURL, with: configuration2) { image in

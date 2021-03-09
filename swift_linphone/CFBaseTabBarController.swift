@@ -19,7 +19,7 @@ class CFBaseTabBarController: UITabBarController {
         //添加子控制器
         setUpChildController(vc: CFBaseNavigationController(rootViewController: TextChatViewController()), title: "文本", image: UIImage.init(named: "order_unselected")!, selectedImage: UIImage.init(named: "order_selected")!)
         setUpChildController(vc: CFBaseNavigationController(rootViewController: FaceTimeController()), title: "通话", image: UIImage.init(named: "me_unselected")!, selectedImage: UIImage.init(named: "me_selected")!)
-        setUpChildController(vc: CFBaseNavigationController(rootViewController: FriendViewController()), title: "通话", image: UIImage.init(named: "me_unselected")!, selectedImage: UIImage.init(named: "me_selected")!)
+        setUpChildController(vc: CFBaseNavigationController(rootViewController: MessageKitViewController()), title: "通话", image: UIImage.init(named: "me_unselected")!, selectedImage: UIImage.init(named: "me_selected")!)
         setUpChildController(vc: CFBaseNavigationController(rootViewController: FuncViewController()), title: "功能", image: UIImage.init(named: "me_unselected")!, selectedImage: UIImage.init(named: "me_selected")!)
     }
 }
@@ -38,7 +38,7 @@ extension CFBaseTabBarController {
 //            appearance.shadowColor = .white
             
 //            appearance.shadowImage = UIImage()
-            appearance.backgroundImage = UIImage(named: "navigationbar_bg_white")
+//            appearance.backgroundImage = UIImage(named: "navigationbar_bg_white")
             
             
             self.tabBar.standardAppearance = appearance
@@ -55,8 +55,8 @@ extension CFBaseTabBarController {
             selectAttrs[NSAttributedString.Key.foregroundColor] = UIColor.color("#cca77e")
             item.setTitleTextAttributes(selectAttrs, for: .selected)
             
-            self.tabBar.backgroundColor = .white
-            self.tabBar.backgroundImage = UIImage(named: "navigationbar_bg_white")
+//            self.tabBar.backgroundColor = .white
+//            self.tabBar.backgroundImage = UIImage(named: "navigationbar_bg_white")
 //            self.tabBar.shadowImage = UIImage()
         }
     }
